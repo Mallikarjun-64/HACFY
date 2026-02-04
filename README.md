@@ -50,7 +50,7 @@ A modern, responsive cybersecurity landing page built with **Next.js 14**, **Typ
    npm run dev
    ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
+4. Open (https://hacfy-rho.vercel.app/) in your browser to see the result.
 
 ## 📜 Available Scripts
 
