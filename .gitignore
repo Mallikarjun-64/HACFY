@@ -6,10 +6,6 @@ node_modules/
 .next/
 out/
 
-# build
-dist/
-build/
-
 # env
 .env.example
 .env.local
