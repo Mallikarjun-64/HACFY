@@ -1,0 +1,75 @@
+.header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.title {
+  font-size: 2.5rem;
+  margin-bottom: 16px;
+  color: var(--text-main);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.subtext {
+  font-size: 1.25rem;
+  color: var(--text-muted);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  width: 100%;
+}
+
+.sectorCard {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background: white;
+  cursor: default;
+}
+
+.sectorCard:hover {
+  background-color: #f0f7ff;
+  border-color: var(--primary);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+.iconWrapper {
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.sectorCard:hover .iconWrapper {
+  transform: scale(1.2);
+}
+
+.sectorName {
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+@media (max-width: 992px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .title {
+    font-size: 2rem;
+  }
+}
