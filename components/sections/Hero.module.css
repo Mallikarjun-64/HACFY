@@ -34,7 +34,7 @@
 }
 
 .highlight {
-  background: linear-gradient(135deg, #c026d3 0%, #2563eb 100%);
+  background: linear-gradient(135deg, #da1515f3 0%, #050d1e 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: block;
@@ -85,7 +85,7 @@
   display: block;
   font-size: 0.75rem;
   font-weight: 700;
-  color: #ef4444;
+  color: #da1515f3;
   letter-spacing: 0.2em;
   margin-bottom: 12px;
 }
@@ -147,7 +147,7 @@
   width: 100%;
   padding: 16px;
   border-radius: 12px;
-  background: #ef4444; /* Following the red button in screenshot */
+  background: #da1515f3; /* Following the red button in screenshot */
   color: white;
   font-weight: 700;
   display: flex;
@@ -159,7 +159,7 @@
 }
 
 .assessBtn:hover:not(:disabled) {
-  background: #dc2626;
+  background: #da1515f3;
   transform: translateY(-2px);
   box-shadow: 0 10px 20px rgba(239, 68, 68, 0.2);
 }

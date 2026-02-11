@@ -9,7 +9,7 @@
 .title {
   font-size: 0.875rem;
   font-weight: 800;
-  color: #c026d3;
+  color:#da1515f3;
   text-transform: uppercase;
   letter-spacing: 0.3em;
   display: flex;
@@ -21,7 +21,7 @@
 .mainHeadline {
   font-size: clamp(2.5rem, 5vw, 3.5rem);
   font-weight: 900;
-  color: #0f172a;
+  color: #911a20;
   line-height: 1.1;
   letter-spacing: -0.02em;
   margin-bottom: 24px;
@@ -29,7 +29,7 @@
 }
 
 .highlight {
-  color: #c026d3;
+  color: #911a20;
   position: relative;
   display: inline-block;
 }
@@ -45,7 +45,7 @@
   content: '';
   width: 40px;
   height: 2px;
-  background: #c026d3;
+  background: #da1515f3;
 }
 
 .grid {
@@ -66,7 +66,8 @@
 }
 
 .serviceItem:hover {
-  border-color: rgba(192, 38, 211, 0.3);
+  color: #da1515f3;;
+  border-color: #da1515f3;
   box-shadow: 0 20px 40px rgba(192, 38, 211, 0.08);
   transform: translateY(-4px);
 }
@@ -112,12 +113,12 @@
 
 .active .iconContainer {
   background: linear-gradient(135deg, #fdf4ff 0%, #fae8ff 100%);
-  color: #c026d3;
+  color:#da1515f3;
   border-color: rgba(192, 38, 211, 0.2);
 }
 
 .serviceItem:hover .iconContainer {
-  color: #c026d3;
+  color:#da1515f3;
   background: #fdf4ff;
 }
 
@@ -129,7 +130,7 @@
 }
 
 .active .serviceTitle {
-  color: #c026d3;
+  color: #da1515f3;
   font-size: 1.5rem;
 }
 
@@ -140,7 +141,7 @@
 
 .rotate {
   transform: rotate(180deg);
-  color: #c026d3;
+  color: #da1515f3;
 }
 
 .serviceContent {
@@ -171,12 +172,12 @@
   text-decoration: none;
   transition: all 0.3s ease;
   padding: 10px 0;
-  border-bottom: 2px solid #00f2c3;
+  border-bottom: 2px solid #da1515f3;;
 }
 
 .learnMoreBtn:hover {
   gap: 12px;
-  color: #c026d3;
+  color: #da1515f3;
 }
 
 @media (max-width: 1024px) {

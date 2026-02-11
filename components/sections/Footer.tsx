@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { 
@@ -43,7 +44,16 @@ const Footer: React.FC = () => {
           {/* Brand Column */}
           <div className={styles.brandColumn}>
             <div className={styles.logo}>
-              HAC<span>FY</span>
+              <Image 
+                alt="Left Logo" 
+                loading="lazy" 
+                width={120} 
+                height={50} 
+                decoding="async" 
+                data-nimg="1" 
+                style={{ color: 'transparent', objectFit: 'contain' }} 
+                src="/images/hacfy.webp"
+              />
             </div>
             <p className={styles.tagline}>A FUTURE SECURED</p>
             <p className={styles.description}>

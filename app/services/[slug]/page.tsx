@@ -9,8 +9,8 @@ export async function generateStaticParams() {
   }));
 }
 
-export default function ServicePage({ params }: { params: { slug: string } }) {
-  const { slug } = params;
+export default async function ServicePage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   
   const service = services.find(
     (s) => s.slug.toLowerCase() === slug.toLowerCase()

@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Mail, 
   Phone, 
@@ -9,12 +9,15 @@ import {
   Clock, 
   Send, 
   CheckCircle2,
-  Loader2
+  Loader2,
+  ChevronDown,
+  Search
 } from 'lucide-react';
 import Section from '@/components/ui/Section';
 import styles from './Contact.module.css';
 import Footer from '@/components/sections/Footer';
 import { supabase } from '@/lib/supabase';
+import { countries } from '@/lib/countries';
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -30,11 +33,37 @@ const ContactPage = () => {
 
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const selectedCountry = countries.find(c => c.code === formData.countryCode) || countries.find(c => c.id === 'IN') || countries[0];
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
+
+  const handleCountrySelect = (code: string) => {
+    setFormData(prev => ({ ...prev, countryCode: code }));
+    setIsDropdownOpen(false);
+    setSearchTerm('');
+  };
+
+  const filteredCountries = countries.filter(c => 
+    c.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    c.code.includes(searchTerm)
+  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -82,15 +111,15 @@ const ContactPage = () => {
       <Section className={styles.section} variant="slate-50">
         <div className={styles.contactContainer}>
           {/* Left Column: Info */}
-          <div className={styles.infoColumn}>
+          {/* <div className={styles.infoColumn}>
             <div className={styles.header}>
               <h1 className={styles.title}>Contact Information</h1>
               <p className={styles.description}>
                 Reach out to our cybersecurity experts for consultation, support, or partnership opportunities.
               </p>
-            </div>
+            </div> */}
 
-            <div className={styles.infoCards}>
+            {/* <div className={styles.infoCards}>
               <motion.div 
                 className={styles.infoCard}
                 initial={{ opacity: 0, y: 20 }}
@@ -155,7 +184,7 @@ const ContactPage = () => {
                 </div>
               </motion.div>
             </div>
-          </div>
+          </div> */}
 
           {/* Right Column: Form */}
           <motion.div 
@@ -215,16 +244,59 @@ const ContactPage = () => {
                 <div className={styles.formGroup}>
                   <label className={styles.label}>Phone Number *</label>
                   <div className={styles.phoneInputWrapper}>
-                    <select 
-                      name="countryCode"
-                      className={`${styles.select} ${styles.countryCode}`}
-                      value={formData.countryCode}
-                      onChange={handleChange}
-                    >
-                      <option value="+91">🇮🇳 +91</option>
-                      <option value="+1">🇺🇸 +1</option>
-                      <option value="+44">🇬🇧 +44</option>
-                    </select>
+                    <div className={styles.customCountrySelector} ref={dropdownRef}>
+                      <div 
+                        className={styles.selectorTrigger}
+                        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                      >
+                        <div className={styles.selectedFlag}>
+                          <span>{selectedCountry.flag}</span>
+                          <span>{selectedCountry.code}</span>
+                        </div>
+                        <ChevronDown size={14} className={isDropdownOpen ? styles.rotate : ''} />
+                      </div>
+
+                      <AnimatePresence>
+                        {isDropdownOpen && (
+                          <motion.div 
+                            className={styles.dropdownList}
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            <div className={styles.searchWrapper}>
+                              <Search size={14} className={styles.searchIcon} />
+                              <input 
+                                type="text"
+                                className={styles.searchInput}
+                                placeholder="Search country..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                autoFocus
+                              />
+                            </div>
+                            <div className={styles.scrollArea}>
+                              {filteredCountries.map((country) => (
+                                <button
+                                  key={`${country.id}-${country.code}`}
+                                  type="button"
+                                  className={`${styles.countryItem} ${formData.countryCode === country.code ? styles.active : ''}`}
+                                  onClick={() => handleCountrySelect(country.code)}
+                                >
+                                  <span className={styles.itemFlag}>{country.flag}</span>
+                                  <span className={styles.itemName}>{country.name}</span>
+                                  <span className={styles.itemCode}>{country.code}</span>
+                                </button>
+                              ))}
+                              {filteredCountries.length === 0 && (
+                                <div className={styles.noResults}>No country found</div>
+                              )}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
                     <input 
                       type="tel" 
                       name="phoneNumber"

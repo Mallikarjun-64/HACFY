@@ -6,7 +6,7 @@
 }
 
 .topCtaBar {
-  background: linear-gradient(90deg, #c026d3 0%, #701a75 100%); /* Pink gradient */
+  background: linear-gradient(90deg, #da1515f3 0%, #da1515f3 100%); /* Pink gradient */
   padding: 40px 0;
   margin-bottom: 80px;
 }
@@ -26,7 +26,7 @@
 
 .ctaButton {
   background-color: white;
-  color: #701a75;
+  color:#da1515f3;
   padding: 16px 32px;
   border-radius: 12px;
   font-weight: 700;
@@ -119,7 +119,7 @@
 }
 
 .socialIcon:hover {
-  background-color: #c026d3;
+  background-color: #da1515f3;
   transform: translateY(-3px);
 }
 
@@ -180,11 +180,11 @@
 }
 
 .emailInput:focus {
-  border-color: #c026d3;
+  border-color:#da1515f3;
 }
 
 .subscribeBtn {
-  background-color: #e11d48; /* Red from image, but we'll use pink if preferred */
+  background-color:#da1515f3;; /* Red from image, but we'll use pink if preferred */
   color: white;
   padding: 14px 24px;
   border-radius: 8px;
@@ -198,7 +198,7 @@
 }
 
 .subscribeBtn:hover {
-  background-color: #be185d;
+  background-color: #da1515f3;
   box-shadow: 0 4px 20px rgba(225, 29, 72, 0.2);
 }
 
@@ -220,7 +220,7 @@
 }
 
 .shieldIcon {
-  color: #e11d48;
+  color: #da1515f3;;
 }
 
 .bottomLinks {

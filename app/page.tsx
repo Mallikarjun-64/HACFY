@@ -5,6 +5,7 @@ import SMESectors from '@/components/sections/SMESectors';
 import TrustedServices from '@/components/sections/TrustedServices';
 import Testimonials from '@/components/sections/Testimonials';
 import Resources from '@/components/sections/Resources';
+import Careers from '@/components/sections/Careers';
 import Footer from '@/components/sections/Footer';
 
 export default function Home() {
@@ -16,6 +17,7 @@ export default function Home() {
       <TrustedServices />
       <Testimonials />
       <Resources />
+      <Careers />
       <Footer />
     </>
   );
