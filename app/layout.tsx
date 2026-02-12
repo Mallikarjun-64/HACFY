@@ -1,9 +1,33 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "@/components/ui/Navbar";
 
-const inter = Inter({ subsets: ["latin"], weight: ["400", "500", "700"] });
+const montserrat = localFont({
+  src: [
+    {
+      path: "../public/font/montserrat/Montserrat-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../public/font/montserrat/Montserrat-Medium.ttf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../public/font/montserrat/Montserrat-SemiBold.ttf",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../public/font/montserrat/Montserrat-Bold.ttf",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Cybersecurity Services | SME Security Posture",
@@ -17,7 +41,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className} suppressHydrationWarning>
+      <body className={montserrat.className} suppressHydrationWarning>
         <Navbar />
         <main>{children}</main>
       </body>

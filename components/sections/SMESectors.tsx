@@ -91,7 +91,7 @@ const SMESectors: React.FC = () => {
   const [selectedSector, setSelectedSector] = useState<number | null>(null);
 
   return (
-    <Section id="sectors" variant="white">
+    <Section id="sectors" variant="white" className={styles.sectorsSection}>
       <motion.div 
         className={styles.header}
         initial={{ opacity: 0, y: 20 }}
