@@ -7,7 +7,7 @@
 }
 
 .mainHeadline {
-  font-size: clamp(2.5rem, 5vw, 3.75rem);
+  font-size: clamp(1rem, 6vw, 3rem);
   font-weight: 950;
   color: #1e293b;
   line-height: 1.05;
