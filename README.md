@@ -9,6 +9,8 @@ A modern, responsive cybersecurity landing page built with **Next.js**, **TypeSc
 - **Smooth Animations**: Powered by `framer-motion` for an engaging user experience.
 - **Dynamic Service Pages**: Automatically generated pages for different cybersecurity services.
 - **Contact Form**: Integrated with **Supabase** for secure form submissions and lead management.
+- **SME & Corporate Focus**: Specialized sections for different business sectors.
+- **Career Section**: Dedicated area for job opportunities and recruitment.
 - **Modular Components**: Built with reusable React components and CSS Modules.
 - **Type Safety**: Fully typed with TypeScript for better developer experience and reliability.
 
@@ -20,16 +22,23 @@ A modern, responsive cybersecurity landing page built with **Next.js**, **TypeSc
 - **Styling**: CSS Modules
 - **Animations**: [Framer Motion](https://www.framer.com/motion/)
 - **Icons**: [Lucide React](https://lucide.dev/)
+- **Fonts**: Custom locally hosted fonts
 
 ## 📂 Project Structure
 
 - `app/`: Next.js App Router pages and global styles.
-  - `contact/`: Contact page with form integration.
+  - `contact/`: Contact page with Supabase form integration.
   - `services/`: Dynamic service pages based on slug.
-- `components/sections/`: High-level page sections (Hero, Resources, Trusted Services, etc.).
-- `components/ui/`: Reusable UI components (Button, Card, Navbar, etc.).
-- `lib/`: Utility functions and data (Supabase client, services data).
-- `public/`: Static assets (images, icons, etc.).
+- `components/sections/`: High-level page sections.
+  - `Hero`, `ModernBusinesses`, `SMESectors`, `TrustedServices`, `Testimonials`, `Resources`, `Careers`, `Footer`.
+- `components/ui/`: Reusable UI components.
+  - `Button`, `Card`, `Navbar`, `Section`.
+- `lib/`: Utility functions and data.
+  - `countries.ts`: Country data for forms.
+  - `services-data.ts`: Static data for service pages.
+  - `supabase.ts`: Supabase client configuration.
+- `public/`: Static assets (images, custom fonts).
+- `supabase_schema.sql`: Database schema for contact submissions.
 
 ## 🏁 Getting Started
 
