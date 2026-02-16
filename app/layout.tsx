@@ -31,7 +31,7 @@ const montserrat = localFont({
 
 export const metadata: Metadata = {
   title: "Cybersecurity Services | SME Security Posture",
-  description: "Get clarity on your security posture with modern, accessible cybersecurity solutions designed for growing businesses.",
+  description: "Strengthen your organization with comprehensive security assessments that identify vulnerabilities, reduce exposure, and enhance resilience across your digital infrastructure.",
 };
 
 export default function RootLayout({

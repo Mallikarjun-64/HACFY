@@ -62,15 +62,15 @@ const Footer: React.FC = () => {
             <div className={styles.contactInfo}>
               <div className={styles.contactItem}>
                 <Mail size={18} />
-                <span>contact@hacfy.com</span>
+                <span>info@hacfy.com</span>
               </div>
               <div className={styles.contactItem}>
                 <Phone size={18} />
-                <span>+1 (234) 567-890</span>
+                <span>+91 8660767853</span>
               </div>
               <div className={styles.contactItem}>
                 <MapPin size={18} />
-                <span>Global Operations</span>
+                <span>Alva’s Technology Centre, Mijar – Moodubidire, Managlore, DK 574225</span>
               </div>
             </div>
             <div className={styles.socials}>
@@ -84,11 +84,11 @@ const Footer: React.FC = () => {
           <div className={styles.linksColumn}>
             <h3 className={styles.columnTitle}>Services</h3>
             <ul className={styles.linkList}>
-              <li><a href="#services">Penetration Testing</a></li>
+              <li><a href="#services">VAPT</a></li>
               <li><a href="#services">Cloud Security</a></li>
               <li><a href="#services">Application Security</a></li>
-              <li><a href="#services">Security Review</a></li>
-              <li><a href="#services">Human Risk Assessment</a></li>
+              <li><a href="#services">Security Hardening</a></li>
+              <li><a href="#services">Human Risk Simulations</a></li>
             </ul>
           </div>
 
@@ -97,9 +97,9 @@ const Footer: React.FC = () => {
             <h3 className={styles.columnTitle}>Company</h3>
             <ul className={styles.linkList}>
               <li><a href="#about">About Us</a></li>
-              <li><a href="#careers">Careers</a></li>
-              <li><a href="#blog">Blog</a></li>
-              <li><a href="#contact">Contact</a></li>
+              <li><a href="#features">Why HacFy</a></li>
+              <li><a href="#blog">Blogs</a></li>
+              <li><a href="#contact">Contact Us</a></li>
             </ul>
           </div>
 

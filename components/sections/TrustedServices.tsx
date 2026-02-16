@@ -41,8 +41,8 @@ const TrustedServices: React.FC = () => {
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
       >
-        <h3 className={styles.mainHeadline}>Comprehensive Security <span className={styles.highlight}>Solutions</span></h3>
-        <p className={styles.description}>Protecting your digital assets with industry-leading expertise and modern tools.</p>
+        <h3 className={styles.mainHeadline}>Security Coverage Across Your <span className={styles.highlight}>Digital Assets</span></h3>
+        <p className={styles.description}>Protecting critical infrastructure, applications, and business systems with structured security assessments.</p>
       </motion.div>
       <motion.div 
         className={styles.list}

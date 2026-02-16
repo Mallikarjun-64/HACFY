@@ -4,10 +4,10 @@
 }
 
 .title {
-  font-size: 2.5rem;
-  color: #911a20;
-  font-weight: 800;
-  letter-spacing: -0.02em;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  color: #911A20;
+  font-weight: 900;
+  letter-spacing: -0.03em;
 }
 
 .grid {

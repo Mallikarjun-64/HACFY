@@ -49,10 +49,10 @@ const Hero: React.FC = () => {
           transition={{ duration: 0.6 }}
         >
           <h1 className={styles.headline}>
-            Understand Your Cyber Risk <span className={styles.highlight}>Before It&apos;s Too Late</span>
+            Gain Clear Visibility into Your Cyber Risk <span className={styles.highlight}>Before Threats Turn into Incidents</span>
           </h1>
           <p className={styles.subtext}>
-            Get clarity on your security posture with modern, accessible cybersecurity solutions designed for growing businesses.
+            Strengthen your organization with comprehensive security assessments that identify vulnerabilities, reduce exposure, and enhance resilience across your digital infrastructure.
           </p>
           <div className={styles.actions}>
             <Button 
@@ -61,7 +61,7 @@ const Hero: React.FC = () => {
               className={styles.ctaButton}
               onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
             >
-              Request Full Audit
+              Request a Security Assessment
             </Button>
           </div>
         </motion.div>

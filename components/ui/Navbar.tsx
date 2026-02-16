@@ -139,7 +139,7 @@ const Navbar: React.FC = () => {
             variant="primary"
             className={styles.navCta}
           >
-            Request Cyber Risk View
+            Request a Security Assessment
           </Button>
         </div>
 
@@ -198,7 +198,7 @@ const Navbar: React.FC = () => {
                 variant="primary"
                 className={styles.mobileNavCta}
               >
-                Request Cyber Risk View
+                Request a Security Assessment
               </Button>
             </div>
           </motion.div>

@@ -4,10 +4,10 @@
 }
 
 .title {
-  font-size: 2.5rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: #911a20;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  color: #911A20;
   margin-bottom: 16px;
 }
 

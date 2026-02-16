@@ -206,9 +206,14 @@ const ContactPage = () => {
                   required
                 >
                   <option value="">-- Choose an option --</option>
-                  <option value="penetration-testing">Penetration Testing</option>
-                  <option value="cloud-security">Cloud Security</option>
-                  <option value="compliance">Compliance Audit</option>
+                  <option value="network-systems">Network & Systems</option>
+                  <option value="cloud-platforms">Cloud Platforms</option>
+                  <option value="data-storage">Data Storage</option>
+                  <option value="applications">Applications</option>
+                  <option value="communication-code">Communication & Code</option>
+                  <option value="devices-hardware">Devices & Hardware</option>
+                  <option value="security-testing">Security Testing</option>
+                  <option value="human-risk-testing">Human Risk Testing</option>
                   <option value="other">Other</option>
                 </select>
               </div>

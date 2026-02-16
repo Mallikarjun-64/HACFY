@@ -29,7 +29,7 @@ const CTAFooter: React.FC = () => {
         transition={{ duration: 0.6 }}
       >
         <div className={styles.textContainer}>
-          <h2 className={styles.headline}>Ready to Understand Your Cyber Risk?</h2>
+          <h2 className={styles.headline}>Ready to Gain Clear Visibility?</h2>
           <p className={styles.subtext}>Clarity today prevents incidents tomorrow. Get in touch with our security experts.</p>
         </div>
 

@@ -9,21 +9,21 @@ import styles from './Testimonials.module.css';
 
 const testimonials = [
   {
-    name: 'Sarah Johnson',
-    role: 'CTO, TechFlow Solutions',
-    content: 'CyberGuard transformed our security posture. Their risk assessment gave us the clarity we needed to prioritize our security roadmap effectively.',
+    name: 'Name Placeholder',
+    role: 'Chief Technology Officer',
+    content: 'Our security assessment provided clear visibility into previously unidentified risks. The structured remediation roadmap helped us strengthen our defenses with confidence.',
     stars: 5
   },
   {
-    name: 'David Chen',
-    role: 'Founder, EcoScale',
-    content: 'As a fast-growing startup, we needed security that could scale with us. The continuous monitoring service provides peace of mind 24/7.',
+    name: 'Name Placeholder',
+    role: 'Founder & CEO',
+    content: 'The team demonstrated deep technical expertise and a practical approach to risk management. Their assessment significantly improved our overall security posture.',
     stars: 5
   },
   {
-    name: 'Michael Roberts',
-    role: 'Operations Director, Global logistics',
-    content: 'The team at CyberGuard is professional and deeply knowledgeable. They made compliance simple and straightforward for our entire team.',
+    name: 'Name Placeholder',
+    role: 'Operations Director',
+    content: 'The engagement was thorough, professional, and well-documented. Their findings enabled us to close critical gaps and improve compliance readiness.',
     stars: 5
   }
 ];
@@ -54,7 +54,7 @@ const Testimonials: React.FC = () => {
         transition={{ duration: 0.5 }}
       >
         <h2 className={styles.title}>What Our Clients Say</h2>
-        <p className={styles.subtext}>Trusted by innovative companies worldwide.</p>
+        <p className={styles.subtext}>Delivering measurable security outcomes across industries.</p>
       </motion.div>
       <motion.div 
         className={styles.grid}
