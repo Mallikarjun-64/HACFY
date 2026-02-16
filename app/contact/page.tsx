@@ -2,17 +2,13 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Clock, 
-  Send, 
+import {
   CheckCircle2,
   Loader2,
   ChevronDown,
   Search
 } from 'lucide-react';
+
 import Section from '@/components/ui/Section';
 import styles from './Contact.module.css';
 import Footer from '@/components/sections/Footer';
@@ -22,12 +18,11 @@ import { countries } from '@/lib/countries';
 const ContactPage = () => {
   const [formData, setFormData] = useState({
     service: '',
-    fullName: '',
-    email: '',
+    name: '',
+    companyEmail: '',
     countryCode: '+91',
     phoneNumber: '',
-    company: '',
-    subject: '',
+    companyName: '',
     message: ''
   });
 
@@ -37,7 +32,10 @@ const ContactPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const selectedCountry = countries.find(c => c.code === formData.countryCode) || countries.find(c => c.id === 'IN') || countries[0];
+  const selectedCountry =
+    countries.find(c => c.code === formData.countryCode) ||
+    countries.find(c => c.id === 'IN') ||
+    countries[0];
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -45,11 +43,14 @@ const ContactPage = () => {
         setIsDropdownOpen(false);
       }
     };
+
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
@@ -60,13 +61,37 @@ const ContactPage = () => {
     setSearchTerm('');
   };
 
-  const filteredCountries = countries.filter(c => 
-    c.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+  const filteredCountries = countries.filter(c =>
+    c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     c.code.includes(searchTerm)
   );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const email = formData.companyEmail.trim().toLowerCase();
+
+    const blockedDomains = [
+      'gmail.com',
+      'yahoo.com',
+      'outlook.com',
+      'hotmail.com',
+      'live.com',
+      'msn.com',
+      'icloud.com',
+      'protonmail.com',
+      'aol.com'
+    ];
+
+    const domain = email.split('@')[1];
+
+    // 🚫 Strong company email enforcement
+    if (!domain || blockedDomains.some(d => email.includes(d))) {
+      setStatus('error');
+      setErrorMessage('Please use your company email address');
+      return;
+    }
+
     setStatus('loading');
     setErrorMessage('');
 
@@ -76,11 +101,11 @@ const ContactPage = () => {
         .insert([
           {
             service: formData.service,
-            full_name: formData.fullName,
-            email: formData.email,
+            full_name: formData.name,
+            email: formData.companyEmail,
             phone: `${formData.countryCode} ${formData.phoneNumber}`,
-            company: formData.company,
-            subject: formData.subject,
+            company: formData.companyName,
+            subject: '',
             message: formData.message,
             submitted_at: new Date().toISOString()
           }
@@ -89,302 +114,234 @@ const ContactPage = () => {
       if (error) throw error;
 
       setStatus('success');
+
       setFormData({
         service: '',
-        fullName: '',
-        email: '',
+        name: '',
+        companyEmail: '',
         countryCode: '+91',
         phoneNumber: '',
-        company: '',
-        subject: '',
+        companyName: '',
         message: ''
       });
+
     } catch (error: any) {
-      console.error('Error submitting form:', error);
+      console.error('Supabase Error:', error);
       setStatus('error');
-      setErrorMessage(error.message || 'Something went wrong. Please try again.');
+      setErrorMessage(error.message || 'Submission failed');
     }
   };
 
   return (
     <>
       <Section className={styles.section} variant="slate-50">
-        <div className={styles.contactContainer}>
-          {/* Left Column: Info */}
-          {/* <div className={styles.infoColumn}>
-            <div className={styles.header}>
-              <h1 className={styles.title}>Contact Information</h1>
-              <p className={styles.description}>
-                Reach out to our cybersecurity experts for consultation, support, or partnership opportunities.
-              </p>
-            </div> */}
+        <div className={styles.pageWrapper}>
+          <h1 className={styles.mainTitle}>
+            <span className={styles.blueText}>Get in touch </span>
+            <span className={styles.cyanText}>with</span>
+            <br />
+            <span className={styles.blueText}>us today</span>
+          </h1>
 
-            {/* <div className={styles.infoCards}>
-              <motion.div 
-                className={styles.infoCard}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-              >
-                <div className={styles.iconWrapper}>
-                  <Mail size={24} />
-                </div>
-                <div className={styles.cardContent}>
-                  <h3>Email</h3>
-                  <p>info@hacfy.com</p>
-                  <p className={styles.subtext}>We&apos;ll respond within 24 hours</p>
-                </div>
-              </motion.div>
+          <div className={styles.contactContainer}>
 
-              <motion.div 
-                className={styles.infoCard}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-              >
-                <div className={styles.iconWrapper}>
-                  <Phone size={24} />
-                </div>
-                <div className={styles.cardContent}>
-                  <h3>Phone</h3>
-                  <p>+91 8660767853</p>
-                  <p className={styles.subtext}>Mon-Fri, 9AM-6PM IST</p>
-                </div>
-              </motion.div>
+            {/* LEFT — FORM */}
+            <motion.div
+              className={styles.formCard}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+            >
+              <form className={styles.form} onSubmit={handleSubmit}>
 
-              <motion.div 
-                className={styles.infoCard}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-              >
-                <div className={styles.iconWrapper}>
-                  <MapPin size={24} />
-                </div>
-                <div className={styles.cardContent}>
-                  <h3>Office</h3>
-                  <p>Hacfy Office, 2nd Floor Alva&apos;s Technology Centre, Mijar-Moodubidire, DK 574225.</p>
-                </div>
-              </motion.div>
-
-              <motion.div 
-                className={styles.infoCard}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-              >
-                <div className={styles.iconWrapper}>
-                  <Clock size={24} />
-                </div>
-                <div className={styles.cardContent}>
-                  <h3>Business Hours</h3>
-                  <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
-                  <p>Saturday: 10:00 AM - 4:00 PM</p>
-                  <p>Sunday: Closed</p>
-                </div>
-              </motion.div>
-            </div>
-          </div> */}
-
-          {/* Right Column: Form */}
-          <motion.div 
-            className={styles.formCard}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <h2 className={styles.formTitle}>Send us a Message</h2>
-            
-            <form className={styles.form} onSubmit={handleSubmit}>
-              <div className={styles.formGroup}>
-                <label className={styles.label}>Select Services *</label>
-                <select 
-                  className={styles.select} 
+                <select
+                  className={styles.select}
                   name="service"
                   value={formData.service}
                   onChange={handleChange}
                   required
                 >
-                  <option value="">-- Choose an option --</option>
-                  <option value="network-systems">Network & Systems</option>
-                  <option value="cloud-platforms">Cloud Platforms</option>
-                  <option value="data-storage">Data Storage</option>
-                  <option value="applications">Applications</option>
-                  <option value="communication-code">Communication & Code</option>
-                  <option value="devices-hardware">Devices & Hardware</option>
-                  <option value="security-testing">Security Testing</option>
-                  <option value="human-risk-testing">Human Risk Testing</option>
-                  <option value="other">Other</option>
+
+                  <option value="">Select Services</option>
+                  <option value="VAPT">VAPT</option>
+                  <option value="cloud-security">Cloud Security</option>
+                  <option value="Application Security">Application Security</option>
+                  <option value="Security Hardening">Security Hardening</option>
+                  <option value="Human Risk Simulations">Human Risk Simulations</option>
+
                 </select>
-              </div>
 
-              <div className={styles.formGrid}>
-                <div className={styles.formGroup}>
-                  <label className={styles.label}>Full Name *</label>
-                  <input 
-                    type="text" 
-                    name="fullName"
-                    className={styles.input} 
-                    placeholder="Enter your Full Name" 
-                    value={formData.fullName}
+                <div className={styles.formGrid}>
+                  <input
+                    type="text"
+                    name="name"
+                    className={styles.input}
+                    placeholder="Name"
+                    value={formData.name}
                     onChange={handleChange}
-                    required 
+                    required
+                  />
+
+                  <input
+                    type="email"
+                    name="companyEmail"
+                    className={styles.input}
+                    placeholder="Company Email"
+                    value={formData.companyEmail}
+                    onChange={handleChange}
+                    required
                   />
                 </div>
-                <div className={styles.formGroup}>
-                  <label className={styles.label}>Email Address *</label>
-                  <input 
-                    type="email" 
-                    name="email"
-                    className={styles.input} 
-                    placeholder="Enter your Email" 
-                    value={formData.email}
-                    onChange={handleChange}
-                    required 
-                  />
-                </div>
-              </div>
 
-              <div className={styles.formGrid}>
-                <div className={styles.formGroup}>
-                  <label className={styles.label}>Phone Number *</label>
+                <div className={styles.formGrid}>
+
                   <div className={styles.phoneInputWrapper}>
-                    <div className={styles.customCountrySelector} ref={dropdownRef}>
-                      <div 
-                        className={styles.selectorTrigger}
-                        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                      >
-                        <div className={styles.selectedFlag}>
-                          <span>{selectedCountry.flag}</span>
-                          <span>{selectedCountry.code}</span>
-                        </div>
-                        <ChevronDown size={14} className={isDropdownOpen ? styles.rotate : ''} />
-                      </div>
 
-                      <AnimatePresence>
-                        {isDropdownOpen && (
-                          <motion.div 
-                            className={styles.dropdownList}
-                            initial={{ opacity: 0, y: -10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -10 }}
-                            transition={{ duration: 0.2 }}
-                          >
-                            <div className={styles.searchWrapper}>
-                              <Search size={14} className={styles.searchIcon} />
-                              <input 
-                                type="text"
-                                className={styles.searchInput}
-                                placeholder="Search country..."
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                autoFocus
-                              />
-                            </div>
-                            <div className={styles.scrollArea}>
-                              {filteredCountries.map((country) => (
-                                <button
-                                  key={`${country.id}-${country.code}`}
-                                  type="button"
-                                  className={`${styles.countryItem} ${formData.countryCode === country.code ? styles.active : ''}`}
-                                  onClick={() => handleCountrySelect(country.code)}
-                                >
-                                  <span className={styles.itemFlag}>{country.flag}</span>
-                                  <span className={styles.itemName}>{country.name}</span>
-                                  <span className={styles.itemCode}>{country.code}</span>
-                                </button>
-                              ))}
-                              {filteredCountries.length === 0 && (
-                                <div className={styles.noResults}>No country found</div>
-                              )}
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
+                    {/* LEFT PART — FLAG + CODE */}
+                    <div
+                      className={styles.selectorTrigger}
+                      onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                    >
+                      <span className={styles.itemFlag}>{selectedCountry.flag}</span>
+                      <span className={styles.itemCode}>{selectedCountry.code}</span>
+
+                      <ChevronDown
+                        size={14}
+                        className={isDropdownOpen ? styles.rotate : ''}
+                      />
                     </div>
-                    <input 
-                      type="tel" 
+
+                    {/* PHONE INPUT */}
+                    <input
+                      type="tel"
                       name="phoneNumber"
-                      className={styles.input} 
-                      style={{ flex: 1 }} 
-                      placeholder="Phone Number" 
+                      className={styles.input}
+                      placeholder="Phone Number"
                       value={formData.phoneNumber}
                       onChange={handleChange}
-                      required 
+                      required
+                      style={{ flex: 1 }}
                     />
+
+                    {/* DROPDOWN */}
+                    <AnimatePresence>
+                      {isDropdownOpen && (
+                        <motion.div
+                          className={styles.dropdownList}
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                        >
+                          <div className={styles.searchWrapper}>
+                            <Search size={14} className={styles.searchIcon} />
+                            <input
+                              type="text"
+                              className={styles.searchInput}
+                              placeholder="Search country..."
+                              value={searchTerm}
+                              onChange={(e) => setSearchTerm(e.target.value)}
+                              autoFocus
+                            />
+                          </div>
+
+                          <div className={styles.scrollArea}>
+                            {filteredCountries.map(country => (
+                              <button
+                                key={`${country.id}-${country.code}`}
+                                type="button"
+                                className={styles.countryItem}
+                                onClick={() => handleCountrySelect(country.code)}
+                              >
+                                <span className={styles.itemFlag}>{country.flag}</span>
+                                <span className={styles.itemName}>{country.name}</span>
+                                <span className={styles.itemCode}>{country.code}</span>
+                              </button>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+
                   </div>
-                </div>
-                <div className={styles.formGroup}>
-                  <label className={styles.label}>Company (Optional)</label>
-                  <input 
-                    type="text" 
-                    name="company"
-                    className={styles.input} 
-                    placeholder="Your Company" 
-                    value={formData.company}
+
+                  {/* COMPANY NAME */}
+                  <input
+                    type="text"
+                    name="companyName"
+                    className={styles.input}
+                    placeholder="Company Name"
+                    value={formData.companyName}
                     onChange={handleChange}
                   />
+
                 </div>
-              </div>
 
-              <div className={styles.formGroup}>
-                <label className={styles.label}>Subject *</label>
-                <input 
-                  type="text" 
-                  name="subject"
-                  className={styles.input} 
-                  placeholder="How can we help you?" 
-                  value={formData.subject}
-                  onChange={handleChange}
-                  required 
-                />
-              </div>
 
-              <div className={styles.formGroup}>
-                <label className={styles.label}>Message *</label>
-                <textarea 
+                <textarea
                   name="message"
-                  className={styles.textarea} 
-                  placeholder="Tell us about your cybersecurity needs..." 
+                  className={styles.textarea}
+                  placeholder="Please outline your query..."
                   value={formData.message}
                   onChange={handleChange}
                   required
-                ></textarea>
-              </div>
+                />
 
-              {status === 'success' && (
-                <div className={styles.successBox} style={{ color: '#10b981', border: '1px solid #10b981', background: '#ecfdf5' }}>
-                  <div className={styles.successContent}>
-                    <CheckCircle2 size={20} />
-                    <span>Message Sent Successfully!</span>
+                {status === 'success' && (
+                  <div className={styles.successBox}>
+                    <div className={styles.successContent}>
+                      <CheckCircle2 size={18} />
+                      <span>Message Sent Successfully!</span>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              {status === 'error' && (
-                <div className={styles.successBox} style={{ color: '#ef4444', border: '1px solid #ef4444', background: '#fef2f2' }}>
-                  <div className={styles.successContent}>
+                {status === 'error' && (
+                  <div className={styles.successBox} style={{ color: '#ef4444' }}>
                     <span>{errorMessage}</span>
                   </div>
-                </div>
-              )}
-
-              <button 
-                type="submit" 
-                className={styles.submitButton}
-                disabled={status === 'loading'}
-              >
-                {status === 'loading' ? (
-                  <Loader2 size={18} className="animate-spin" />
-                ) : (
-                  <Send size={18} />
                 )}
-                {status === 'loading' ? 'Sending...' : 'Send Message'}
-              </button>
-            </form>
-          </motion.div>
+
+                <button
+                  type="submit"
+                  className={styles.submitButton}
+                  disabled={status === 'loading'}
+                >
+                  {status === 'loading' && (
+                    <Loader2 size={18} className="animate-spin" />
+                  )}
+                  {status === 'loading' ? 'SENDING...' : 'SUBMIT FORM'}
+                </button>
+
+              </form>
+            </motion.div>
+
+            {/* RIGHT — INFO PANEL */}
+            <motion.div
+              className={styles.infoColumn}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+            >
+              <h2 className={styles.processTitle}>What happens next?</h2>
+
+              <div className={styles.processSteps}>
+                {['Confirmation', 'Review & Routing', 'Initial contact', 'Consultation', 'Proposal']
+                  .map((title, i) => (
+                    <div className={styles.processStep} key={title}>
+                      <div className={styles.stepIcon}>{i + 1}</div>
+                      <div className={styles.stepContent}>
+                        <h3 className={styles.stepTitle}>{title}</h3>
+                        <p className={styles.stepDescription}>
+                          Our team will guide you through the next steps after submission.
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            </motion.div>
+
+          </div>
         </div>
       </Section>
+
       <Footer />
     </>
   );
