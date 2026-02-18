@@ -9,7 +9,7 @@
 .mainHeadline {
   font-size: clamp(1rem, 6vw, 3rem);
   font-weight: 950;
-  color: #1e293b;
+  color: #911A20;
   line-height: 1.05;
   letter-spacing: -0.04em;
   margin-bottom: 24px;
@@ -17,7 +17,7 @@
 }
 
 .highlight {
-  color: #c53030;
+  color: #911A20;
   position: relative;
 }
 

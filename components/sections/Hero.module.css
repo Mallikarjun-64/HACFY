@@ -28,15 +28,13 @@
   font-size: clamp(2rem, 5vw, 4rem);
   line-height: 1;
   margin-bottom: 32px;
-  color: #0f172a;
+  color: #1f295d;
   letter-spacing: -0.04em;
   font-weight: 900;
 }
 
 .highlight {
-  background: linear-gradient(135deg, #da1515f3 0%, #050d1e 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #911A20;
   display: block;
   margin-top: 8px;
 }

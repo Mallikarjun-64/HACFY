@@ -7,8 +7,8 @@ import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { 
   Linkedin, 
-  Twitter, 
-  Github, 
+  Instagram, 
+  Facebook, 
   Mail, 
   Phone, 
   MapPin, 
@@ -69,14 +69,14 @@ const Footer: React.FC = () => {
                 <span>+91 8660767853</span>
               </div>
               <div className={styles.contactItem}>
-                <MapPin size={18} />
+                <MapPin size={34} />
                 <span>Alva’s Technology Centre, Mijar – Moodubidire, Managlore, DK 574225</span>
               </div>
             </div>
             <div className={styles.socials}>
               <a href="#" aria-label="LinkedIn" className={styles.socialIcon}><Linkedin size={20} /></a>
-              <a href="#" aria-label="Twitter" className={styles.socialIcon}><Twitter size={20} /></a>
-              <a href="#" aria-label="GitHub" className={styles.socialIcon}><Github size={20} /></a>
+              <a href="#" aria-label="Instagram" className={styles.socialIcon}><Instagram size={20} /></a>
+              <a href="#" aria-label="Facebook" className={styles.socialIcon}><Facebook size={20} /></a>
             </div>
           </div>
 
@@ -132,7 +132,7 @@ const Footer: React.FC = () => {
           <div className={styles.bottomLinks}>
             <a href="#">Privacy Policy</a>
             <a href="#">Terms of Service</a>
-            <a href="#">Cybersecurity Services</a>
+            
           </div>
         </div>
       </div>
