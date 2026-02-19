@@ -27,6 +27,7 @@ const montserrat = localFont({
     },
   ],
   display: "swap",
+  fallback: ["montserrat fallback"]
 });
 
 export const metadata: Metadata = {

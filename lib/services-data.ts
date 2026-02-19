@@ -1,3 +1,8 @@
+export interface Feature {
+  title: string;
+  slug?: string;
+}
+
 export interface Service {
   slug: string;
   title: string;
@@ -5,7 +10,8 @@ export interface Service {
   fullDetails: string;
   icon: string;
   image: string;
-  features: string[];
+  features: string[] | Feature[];
+  hidden?: boolean;
 }
 
 export const services: Service[] = [
@@ -43,7 +49,12 @@ export const services: Service[] = [
     fullDetails: 'We perform thorough testing of your web and mobile applications using industry standards like OWASP. Our process includes dynamic (DAST) and static analysis (SAST) to find logic flaws and technical vulnerabilities. We cover everything from authentication bypass to complex business logic vulnerabilities that automated tools often miss.',
     icon: 'AppWindow',
     image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=1200',
-    features: ['Web App Penetration Testing', 'Mobile App Security', 'API Security Testing', 'Source Code Review']
+    features: [
+      { title: 'Web Application', slug: 'web-application' },
+      { title: 'Mobile App Security' },
+      { title: 'API Security Testing' },
+      { title: 'Source Code Review' }
+    ]
   },
   {
     slug: 'email-collaboration',
@@ -80,5 +91,22 @@ export const services: Service[] = [
     icon: 'Users',
     image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1200',
     features: ['Phishing Simulations', 'Security Awareness Training', 'Social Engineering', 'Physical Access Testing']
+  },
+  {
+    slug: 'web-application',
+    title: 'Web Application',
+    description: 'A Web Application Penetration Test is a controlled security assessment designed to identify vulnerabilities in your web applications before attackers do. It simulates real-world cyberattacks to uncover security weaknesses that could lead to data breaches, financial loss, or reputational damage.',
+    fullDetails: '1. What is a Web Application Penetration Test?\n\nA Web Application Penetration Test is a controlled security assessment designed to identify vulnerabilities in your web applications before attackers do. It simulates real-world cyberattacks to uncover security weaknesses that could lead to data breaches, financial loss, or reputational damage.\n\nAt HacFy, we go beyond automated scanning. Our security experts combine advanced tools with in-depth manual testing to evaluate authentication mechanisms, session management, business logic, APIs, input validation, access controls, and server configurations.\n\nOur testing approach aligns with industry standards such as OWASP Top 10, ensuring that your web applications remain resilient against modern threats.\n\n2. Why HacFy For Your Web Application Penetration Testing Services?\n\nChoosing the right security partner is critical. At HacFy, we deliver more than vulnerability reports — we deliver clarity, risk context, and actionable solutions.\n\nWhy organizations trust HacFy:\n\n• Experienced security analysts with real-world offensive security expertise\n• Deep understanding of OWASP Top 10 and modern attack vectors\n• Manual testing combined with advanced automated tools\n• Clear, executive-friendly reporting with technical depth\n• Practical remediation guidance, not just vulnerability listings\n• Responsible and safe testing methodology\n\nWe focus on business impact, not just technical findings. Our goal is to strengthen your security posture while ensuring minimal disruption to operations.',
+    icon: 'AppWindow',
+    image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=1200',
+    features: [
+      'Authentication Mechanism Review',
+      'Session Management Testing',
+      'Business Logic Evaluation',
+      'API Security Assessment',
+      'Input Validation Testing',
+      'Access Control Audit'
+    ],
+    hidden: true
   }
 ];

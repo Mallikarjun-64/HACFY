@@ -4,7 +4,6 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { motion } from 'framer-motion';
 import { 
   Linkedin, 
   Instagram, 
@@ -20,7 +19,7 @@ import styles from './Footer.module.css';
 const Footer: React.FC = () => {
   const router = useRouter();
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     router.push('/contact');
   };

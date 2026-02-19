@@ -51,7 +51,7 @@ const TrustedServices: React.FC = () => {
         whileInView="visible"
         viewport={{ once: true, amount: 0.1 }}
       >
-        {services.map((service, index) => {
+        {services.filter(service => !service.hidden).map((service, index) => {
           return (
             <motion.div 
               key={index} 
