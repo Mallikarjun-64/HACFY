@@ -83,11 +83,11 @@ const Footer: React.FC = () => {
           <div className={styles.linksColumn}>
             <h3 className={styles.columnTitle}>Services</h3>
             <ul className={styles.linkList}>
-              <li><a href="#services">VAPT</a></li>
-              <li><a href="#services">Cloud Security</a></li>
-              <li><a href="#services">Application Security</a></li>
-              <li><a href="#services">Security Hardening</a></li>
-              <li><a href="#services">Human Risk Simulations</a></li>
+              <li><a href="#cybersecurity-services">VAPT</a></li>
+              <li><a href="#cybersecurity-services">Cloud Security</a></li>
+              <li><a href="#cybersecurity-services">Application Security</a></li>
+              <li><a href="#cybersecurity-services">Security Hardening</a></li>
+              <li><a href="#cybersecurity-services">Human Risk Simulations</a></li>
             </ul>
           </div>
 

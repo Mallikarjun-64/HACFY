@@ -3,6 +3,7 @@
 import React, { useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { motion, useTransform, useSpring, AnimatePresence } from 'framer-motion';
 import { 
   ArrowLeft, 
@@ -25,6 +26,13 @@ export default function ServicePageClient({ service }: { service: Service }) {
 
   const isWebApp = service.slug === 'web-application';
   const isDesktopApp = service.slug === 'desktop-application';
+  const isMobileApp = service.slug === 'mobile-application';
+  const isApiTesting = service.slug === 'api-security-testing';
+  const isSubService = isWebApp || isDesktopApp || isMobileApp || isApiTesting;
+  
+  const backHref = isSubService ? '/services/applications' : '/#cybersecurity-services';
+  const backText = isSubService ? 'Back to Applications' : 'Back to Services';
+
   const isSpecialPage = isWebApp || isDesktopApp;
 
   const methodologySteps = isDesktopApp ? [
@@ -249,9 +257,9 @@ export default function ServicePageClient({ service }: { service: Service }) {
     return (
       <main className={styles.mainContainer}>
         <nav className={styles.nav}>
-          <Link href="/#services" className={styles.backButton}>
+          <Link href={backHref} className={styles.backButton}>
             <ArrowLeft size={20} />
-            Back to Services
+            {backText}
           </Link>
         </nav>
 
@@ -628,9 +636,9 @@ export default function ServicePageClient({ service }: { service: Service }) {
     return (
       <main className={styles.mainContainer}>
         <nav className={styles.nav}>
-          <Link href="/#services" className={styles.backButton}>
+          <Link href={backHref} className={styles.backButton}>
             <ArrowLeft size={20} />
-            Back to Services
+            {backText}
           </Link>
         </nav>
 
@@ -998,9 +1006,9 @@ export default function ServicePageClient({ service }: { service: Service }) {
     return (
       <main className={styles.mainContainer}>
         <nav className={styles.nav}>
-          <Link href="/#services" className={styles.backButton}>
+          <Link href={backHref} className={styles.backButton}>
             <ArrowLeft size={20} />
-            Back to Services
+            {backText}
           </Link>
         </nav>
 
@@ -1314,9 +1322,9 @@ export default function ServicePageClient({ service }: { service: Service }) {
     <main className={styles.mainContainer} ref={containerRef}>
       {/* Navigation */}
       <nav className={styles.nav}>
-        <Link href="/#services" className={styles.backButton}>
+        <Link href={backHref} className={styles.backButton}>
           <ArrowLeft size={20} />
-          Back to Services
+          {backText}
         </Link>
       </nav>
 

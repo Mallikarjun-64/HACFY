@@ -33,7 +33,7 @@ const itemVariants = {
 
 const TrustedServices: React.FC = () => {
   return (
-    <Section id="services" variant="white">
+    <Section id="cybersecurity-services" variant="white">
       <motion.div 
         className={styles.header}
         initial={{ opacity: 0, y: 20 }}
@@ -41,7 +41,7 @@ const TrustedServices: React.FC = () => {
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
       >
-        <h3 className={styles.mainHeadline}>Security Coverage Across Your <span className={styles.highlight}>Digital Assets</span></h3>
+        <h3 className={styles.mainHeadline}>Cybersecurity Services | <span className={styles.highlight}>SME Security Posture</span></h3>
         <p className={styles.description}>Protecting critical infrastructure, applications, and business systems with structured security assessments.</p>
       </motion.div>
       <motion.div 
