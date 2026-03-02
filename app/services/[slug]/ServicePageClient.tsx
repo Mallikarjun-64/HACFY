@@ -23,7 +23,48 @@ export default function ServicePageClient({ service }: { service: Service }) {
   const containerRef = useRef(null);
   const [activeStep, setActiveStep] = useState(0);
 
-  const methodologySteps = [
+  const isWebApp = service.slug === 'web-application';
+  const isDesktopApp = service.slug === 'desktop-application';
+  const isSpecialPage = isWebApp || isDesktopApp;
+
+  const methodologySteps = isDesktopApp ? [
+    {
+      tab: "1. Planning",
+      title: "1. Planning & Information Gathering",
+      description: "We define scope and testing objectives, understand the architecture and technology stack, and identify communication channels (HTTP/S, TCP, IPC, etc.).",
+      image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=800"
+    },
+    {
+      tab: "2. Analysis",
+      title: "2. Vulnerability Analysis",
+      description: "Static Analysis: Review binaries for hardcoded secrets and logic flaws.\nDynamic Analysis: Monitor runtime behavior including memory, file system, registry, and network traffic.",
+      image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800"
+    },
+    {
+      tab: "3. Testing",
+      title: "3. Client-Side Control Testing",
+      description: "We test client-side security controls and Inter-Process Communication (IPC) mechanisms for weaknesses that could be exploited locally.",
+      image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=800"
+    },
+    {
+      tab: "4. Exploitation",
+      title: "4. Exploitation & Privilege Escalation",
+      description: "We test for DLL hijacking, insecure loading paths, and attempt injection attacks (SQL, Command, XML) to bypass authentication or licensing mechanisms.",
+      image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800"
+    },
+    {
+      tab: "5. Impact Assessment",
+      title: "5. Business Impact Analysis",
+      description: "We measure the potential business impact of identified vulnerabilities, ensuring risks are understood in the context of your specific software environment.",
+      image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800"
+    },
+    {
+      tab: "6. Reporting",
+      title: "6. Reporting & Remediation",
+      description: "We deliver a detailed report with CVSS severity ratings, proof of concept, and clear remediation guidance to help your developers fix vulnerabilities effectively.",
+      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800"
+    }
+  ] : [
     {
       tab: "1. Planning & Scoping",
       title: "1. Planning and Scoping",
@@ -62,7 +103,28 @@ export default function ServicePageClient({ service }: { service: Service }) {
     }
   ];
 
-  const faqs = [
+  const faqs = isDesktopApp ? [
+    {
+      question: "Which operating systems do you support?",
+      answer: "We test applications on Windows, macOS, and Linux environments."
+    },
+    {
+      question: "Do you require source code?",
+      answer: "Not necessarily. We can perform binary-level testing, but source code access enhances coverage and depth of the assessment."
+    },
+    {
+      question: "Will testing impact production systems?",
+      answer: "Testing is usually conducted in controlled environments to avoid operational disruption. We coordinate closely with your team."
+    },
+    {
+      question: "How long does a desktop application penetration test take?",
+      answer: "Typically 1–3 weeks depending on application complexity and the depth of testing required."
+    },
+    {
+      question: "Do you provide remediation validation?",
+      answer: "Yes. HacFy provides retesting services to confirm vulnerabilities have been effectively resolved by your development team."
+    }
+  ] : [
     {
       question: "How long does a Web Application Penetration Test take?",
       answer: "The timeline depends on the size and complexity of the application. Most assessments range from a few days to several weeks."
@@ -135,18 +197,54 @@ export default function ServicePageClient({ service }: { service: Service }) {
     transition: { duration: 0.2 } 
   };
 
-  if (service.slug === 'web-application') {
+  if (isSpecialPage) {
     const sections = service.fullDetails.split('\n\n');
     
     // Parse content for custom layout
     const heroTitle = sections[0].replace(/^\d\.\s*/, '');
     const heroDesc = sections[1];
-    const introText = sections[2];
-    const whyTitle = sections[4]?.replace(/^\d\.\s*/, '') || "Why choose HacFy?";
-    const subIntroText = sections[5];
-    const whyListHeading = sections[6];
-    const whyList = sections[7]?.split('\n').filter(line => line.trim().startsWith('•')).map(line => line.replace('•', '').trim()) || [];
-    const closingText = sections[8];
+    
+    // Support multiple intro paragraphs
+    const introParagraphs = [];
+    let currentIndex = 2;
+    while (currentIndex < sections.length && !sections[currentIndex].match(/^\d\.\s*/) && !sections[currentIndex].toLowerCase().startsWith('why')) {
+      introParagraphs.push(sections[currentIndex]);
+      currentIndex++;
+    }
+
+    const whyTitle = sections[currentIndex]?.replace(/^\d\.\s*/, '') || "Why Choose HacFy?";
+    currentIndex++;
+    const subIntroText = sections[currentIndex];
+    currentIndex++;
+    const whyListHeading = sections[currentIndex];
+    currentIndex++;
+    
+    // Support for list items starting with •
+    const whyListLines = sections[currentIndex]?.split('\n') || [];
+    const whyList = whyListLines.filter(line => line.trim().startsWith('•')).map(line => line.replace('•', '').trim());
+    
+    // If no bullet points found, handle as a single block (not ideal)
+    currentIndex++;
+    const closingText = sections[currentIndex];
+
+    const serviceName = isWebApp ? 'Web Applications' : 'Desktop Applications';
+    const singleServiceName = isWebApp ? 'Web Application' : 'Desktop Application';
+
+    const benefits = isDesktopApp ? [
+      "Protect sensitive local and backend data",
+      "Prevent privilege escalation attacks",
+      "Reduce risk of reverse engineering and tampering",
+      "Ensure regulatory and compliance readiness",
+      "Strengthen client-server communication security",
+      "Improve overall software resilience"
+    ] : [
+      "Identify vulnerabilities before attackers exploit them",
+      "Protect sensitive customer and organizational data",
+      "Reduce risk of financial and reputational damage",
+      "Improve compliance readiness (ISO, PCI-DSS, SOC 2, etc.)",
+      "Strengthen customer trust and brand credibility",
+      "Enhance overall security posture"
+    ];
 
     return (
       <main className={styles.mainContainer}>
@@ -212,8 +310,9 @@ export default function ServicePageClient({ service }: { service: Service }) {
             viewport={{ once: true, amount: 0.3 }}
             className={styles.introText}
           >
-            <p>{introText}</p>
-            {sections[3] && <p style={{ marginTop: '1.5rem' }}>{sections[3]}</p>}
+            {introParagraphs.map((para, i) => (
+              <p key={i} style={{ marginTop: i > 0 ? '1.5rem' : 0 }}>{para}</p>
+            ))}
           </motion.div>
         </section>
 
@@ -317,12 +416,12 @@ export default function ServicePageClient({ service }: { service: Service }) {
         {/* Benefits Section - SaaS Split Layout */}
         <section className={styles.benefitsSection}>
           <div className={styles.centeredHeader}>
-            <h2 className={styles.benefitsTitle}>4. Benefits of a Web Application Penetration Test</h2>
+            <h2 className={styles.benefitsTitle}>4. Benefits of a {singleServiceName} Penetration Test</h2>
           </div>
           <div className={styles.benefitsContainer}>
             <div className={styles.benefitsLeft}>
               <p className={styles.benefitsIntroText}>
-                Investing in a Web Application Penetration Test provides tangible business advantages:
+                Investing in a {singleServiceName} Penetration Test provides tangible business advantages:
               </p>
               
               <motion.div 
@@ -332,14 +431,7 @@ export default function ServicePageClient({ service }: { service: Service }) {
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}
               >
-                {[
-                  "Identify vulnerabilities before attackers exploit them",
-                  "Protect sensitive customer and organizational data",
-                  "Reduce risk of financial and reputational damage",
-                  "Improve compliance readiness (ISO, PCI-DSS, SOC 2, etc.)",
-                  "Strengthen customer trust and brand credibility",
-                  "Enhance overall security posture"
-                ].map((benefit, index) => (
+                {benefits.map((benefit, index) => (
                   <motion.div 
                     key={index} 
                     className={styles.benefitItem} 
@@ -377,7 +469,7 @@ export default function ServicePageClient({ service }: { service: Service }) {
         {/* New Call to Action Section 5 */}
         <section className={styles.introSection} style={{ marginTop: '100px', marginBottom: '100px' }}>
           <div className={styles.centeredHeader}>
-            <h2 className={styles.benefitsTitle}>5. What Are You Waiting For? Get a Quote Today & Fortify Your Web Applications</h2>
+            <h2 className={styles.benefitsTitle}>5. What Are You Waiting For? Get a Quote Today & Fortify Your {serviceName}</h2>
           </div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -388,7 +480,7 @@ export default function ServicePageClient({ service }: { service: Service }) {
           >
             <p>
               Cyber threats evolve every day. Waiting until after a breach is not a strategy.
-              Partner with HacFy to proactively secure your web applications with industry-grade penetration testing.
+              Partner with HacFy to proactively secure your {serviceName.toLowerCase()} with industry-grade penetration testing.
               Our experts are ready to assess, identify, and help you remediate critical vulnerabilities before they impact your business.
             </p>
             <p style={{ marginTop: '1.5rem' }}>
@@ -457,6 +549,754 @@ export default function ServicePageClient({ service }: { service: Service }) {
             viewport={{ once: true }}
           >
             <h2 className={styles.ctaTitle}>Ready to secure your {service?.title?.toLowerCase()}?</h2>
+            <p className={styles.ctaText}>
+              Get in touch with our security experts to discuss your project requirements and get a custom quote.
+            </p>
+            <Link href="/contact" className={styles.startProjectBtn}>
+              Start Project
+              <ChevronRight size={20} />
+            </Link>
+          </motion.div>
+        </section>
+      </main>
+    );
+  }
+
+  if (service.slug === 'mobile-application') {
+    const mobileMethodologySteps = [
+      {
+        tab: "1. Planning & Scoping",
+        title: "1. Planning and Scoping",
+        description: "We begin by understanding the application architecture and identifying Android and/or iOS platforms in scope. Compliance objectives including GDPR and PCI DSS are defined alongside testing timelines and reporting expectations. We then confirm testing boundaries, finalise the attack surface scope, set up secure testing environments, and define clear success criteria.",
+        image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=800"
+      },
+      {
+        tab: "2. Reconnaissance",
+        title: "2. Intelligence Gathering (Reconnaissance)",
+        description: "Identifying the application package name and version, mapping backend endpoints, and conducting OSINT research across public repositories, exposed credentials, and forums. We also review third-party integrations to develop a comprehensive picture of the application's attack surface.",
+        image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800"
+      },
+      {
+        tab: "3. Static Analysis (SAST)",
+        title: "3. Static Analysis (SAST)",
+        description: "Decompiling and reviewing application binaries without execution to identify hardcoded secrets such as API keys, tokens, and credentials. We assess insecure configurations, weak cryptographic algorithms, improper certificate validation, and code obfuscation weaknesses to provide a comprehensive static security analysis.",
+        image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800"
+      },
+      {
+        tab: "4. Dynamic Analysis (DAST)",
+        title: "4. Dynamic Analysis (DAST)",
+        description: "Executing the application on physical or emulated devices to observe runtime behavior. Network traffic is captured and modified using tools like Burp Suite to test for insecure data transmission and API manipulation. Local data storage is inspected across shared preferences, SQLite databases, and temporary files. Security protections including SSL pinning, root/jailbreak detection, and runtime controls are systematically tested and bypassed to evaluate true resilience.",
+        image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=800"
+      },
+      {
+        tab: "5. Exploitation",
+        title: "5. Exploitation",
+        description: "Actively exploiting identified vulnerabilities to determine real business impact. Our team tests for SQL Injection, authentication bypass, Insecure Direct Object Reference (IDOR), privilege escalation, and business logic flaws. This phase demonstrates how attackers could compromise data, accounts, or backend systems.",
+        image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800"
+      },
+      {
+        tab: "6. Reporting",
+        title: "6. Reporting and Remediation",
+        description: "HacFy delivers a detailed, executive-ready penetration testing report including technical vulnerability descriptions, Proof of Concept (PoC), risk severity based on CVSS scoring, business impact assessment, and step-by-step remediation guidance. We also provide post-remediation validation support to confirm vulnerabilities are properly resolved.",
+        image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800"
+      }
+    ];
+
+    const mobileFaqs = [
+      {
+        question: "How long does a mobile penetration test take?",
+        answer: "Typically between 5–15 business days depending on app complexity, features, and scope."
+      },
+      {
+        question: "Do you test both Android and iOS applications?",
+        answer: "Yes. HacFy provides comprehensive security testing for both platforms."
+      },
+      {
+        question: "Will testing affect live users?",
+        answer: "Testing is usually conducted in staging environments. If production testing is required, it is carefully coordinated to avoid disruption."
+      },
+      {
+        question: "Do you provide a compliance-ready report?",
+        answer: "Yes. Our reports include risk ratings and documentation suitable for compliance audits (PCI DSS, GDPR, ISO)."
+      },
+      {
+        question: "Can you re-test after fixes are implemented?",
+        answer: "Absolutely. We provide remediation validation testing to confirm vulnerabilities are properly resolved."
+      }
+    ];
+
+    return (
+      <main className={styles.mainContainer}>
+        <nav className={styles.nav}>
+          <Link href="/#services" className={styles.backButton}>
+            <ArrowLeft size={20} />
+            Back to Services
+          </Link>
+        </nav>
+
+        <header className={styles.webAppHero}>
+          <motion.div
+            className={styles.webAppHeroContent}
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <h1 className={styles.webAppHeroTitle}>What is a Mobile Application Penetration Test?</h1>
+            <p className={styles.webAppHeroDescription}>
+              A Mobile Application Penetration Test is a comprehensive security assessment performed on Android and iOS applications to identify vulnerabilities that could be exploited by attackers.
+            </p>
+            <Link href="/contact" className={styles.heroCta}>
+              GET IN TOUCH
+            </Link>
+          </motion.div>
+          <motion.div
+            className={styles.webAppHeroImage}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{
+              opacity: 1,
+              scale: 1,
+              y: [0, -20, 0]
+            }}
+            transition={{
+              opacity: { duration: 0.6, delay: 0.2 },
+              scale: { duration: 0.6, delay: 0.2 },
+              y: { duration: 4, repeat: Infinity, ease: "easeInOut" }
+            }}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
+          >
+            <div className={styles.imageContainer} style={{ aspectRatio: '16/10' }}>
+              <Image
+                src={service.image}
+                alt={service.title}
+                fill
+                className={styles.image}
+                priority
+              />
+            </div>
+          </motion.div>
+        </header>
+
+        <section className={styles.introSection}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            className={styles.introText}
+          >
+            <p>
+              At HacFy, we simulate real-world attack scenarios to uncover security weaknesses in application source code and binaries, API integrations and backend communication, authentication and authorisation mechanisms, data storage and encryption practices, and business logic implementation.
+            </p>
+            <p style={{ marginTop: '1.5rem' }}>
+              Our testing aligns with industry standards such as OWASP Mobile Top 10, ensuring your application is resilient against modern cyber threats while meeting compliance requirements like GDPR, PCI DSS, and ISO 27001.
+            </p>
+          </motion.div>
+        </section>
+
+        <section className={styles.whySection}>
+          <h2 className={styles.whyTitle}>Why HacFy for Your Mobile Penetration Testing Services?</h2>
+          <p className={styles.introText} style={{ marginInline: 'auto', marginBottom: '40px' }}>
+            At HacFy, we go beyond automated scanning. Our assessments are conducted by experienced security professionals who perform deep manual testing combined with advanced tooling.
+          </p>
+          <motion.div
+            className={styles.boxedContent}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+          >
+            <h3 className={styles.boxHeading}>Why Choose HacFy?</h3>
+            <motion.ul
+              className={styles.whyList}
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+            >
+              {[
+                "Industry-aligned testing methodology (OWASP, NIST, PTES)",
+                "Expertise in Android & iOS security testing",
+                "Real-world attack simulation approach",
+                "Detailed risk-based reporting with CVSS scoring",
+                "Clear remediation guidance for development teams",
+                "Secure handling of sensitive business data"
+              ].map((item, index) => (
+                <motion.li
+                  key={index}
+                  className={styles.whyItem}
+                  variants={itemVariants}
+                  whileHover={listItemHover}
+                >
+                  <CheckCircle2 className={styles.checkIcon} size={24} />
+                  <span>{item}</span>
+                </motion.li>
+              ))}
+            </motion.ul>
+          </motion.div>
+          <motion.p
+            className={styles.introText}
+            style={{ marginTop: '4rem', marginInline: 'auto', textAlign: 'left' }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, amount: 0.2 }}
+          >
+            We help organisations proactively detect and eliminate security gaps before attackers exploit them.
+          </motion.p>
+        </section>
+
+        <section className={styles.methodologySection}>
+          <h2 className={styles.methodologyTitle}>3. Our Industry-Proven Methodology</h2>
+          <p className={styles.introText} style={{ marginInline: 'auto', marginBottom: '40px', textAlign: 'center' }}>
+            At HacFy, we follow a structured and systematic testing approach to ensure complete coverage and measurable results.
+          </p>
+          <div className={styles.methodologyBox}>
+            <div className={styles.tabsContainer}>
+              {mobileMethodologySteps.map((step, index) => (
+                <button
+                  key={step.tab}
+                  className={`${styles.tabButton} ${activeStep === index ? styles.activeTab : ''}`}
+                  onClick={() => setActiveStep(index)}
+                >
+                  {step.tab}
+                </button>
+              ))}
+            </div>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeStep}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+                className={styles.tabContent}
+              >
+                <div className={styles.methodologyImage}>
+                  <div className={styles.squareImageContainer}>
+                    <Image
+                      src={mobileMethodologySteps[activeStep].image}
+                      alt={mobileMethodologySteps[activeStep].tab}
+                      fill
+                      className={styles.image}
+                    />
+                  </div>
+                </div>
+                <div className={styles.methodologyText}>
+                  <h3 className={styles.stepTitle}>{mobileMethodologySteps[activeStep].title}</h3>
+                  <p className={styles.stepDescription}>
+                    {mobileMethodologySteps[activeStep].description}
+                  </p>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </section>
+
+        <section className={styles.benefitsSection}>
+          <div className={styles.centeredHeader}>
+            <h2 className={styles.benefitsTitle}>4. Benefits of a Mobile Application Penetration Test</h2>
+          </div>
+          <div className={styles.benefitsContainer}>
+            <div className={styles.benefitsLeft}>
+              <p className={styles.benefitsIntroText}>
+                Investing in mobile security testing provides significant advantages:
+              </p>
+              <motion.div
+                className={styles.benefitsList}
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+              >
+                {[
+                  "Protect sensitive customer and business data",
+                  "Reduce risk of financial and reputational damage",
+                  "Ensure regulatory compliance",
+                  "Secure application before public release",
+                  "Strengthen customer trust",
+                  "Identify logic flaws beyond automated scanning"
+                ].map((benefit, index) => (
+                  <motion.div
+                    key={index}
+                    className={styles.benefitItem}
+                    variants={itemVariants}
+                    whileHover={listItemHover}
+                  >
+                    <Check className={styles.benefitCheck} size={24} />
+                    <span className={styles.benefitPointText}>{benefit}</span>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </div>
+            <div className={styles.benefitsRight}>
+              <div className={styles.saasCard}>
+                <div className={styles.cardVisual}>
+                  <Image
+                    src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=800"
+                    alt="Mobile Security Visual"
+                    fill
+                    style={{ objectFit: 'contain' }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className={styles.centeredFooter}>
+            <p className={styles.strongCta}>
+              Proactive security testing saves organizations from costly breaches and legal consequences.
+            </p>
+          </div>
+        </section>
+
+        <section className={styles.introSection} style={{ marginTop: '100px', marginBottom: '100px' }}>
+          <div className={styles.centeredHeader}>
+            <h2 className={styles.benefitsTitle}>5. What Are You Waiting For? Get a Quote Today & Fortify Your Mobile Applications</h2>
+          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className={styles.introText}
+            style={{ marginInline: 'auto', textAlign: 'center', maxWidth: '1000px' }}
+          >
+            <p>
+              Cyber threats are evolving rapidly — your mobile applications should stay ahead. Partner with HacFy to secure your Android and iOS applications through expert-driven penetration testing services.
+            </p>
+            <p style={{ marginTop: '1.5rem' }}>
+              Contact us today for a customized security assessment and detailed quotation.
+            </p>
+          </motion.div>
+        </section>
+
+        <section className={styles.introSection} style={{ marginBottom: '100px' }}>
+          <div className={styles.centeredHeader}>
+            <h2 className={styles.benefitsTitle}>6. FAQs</h2>
+          </div>
+          <motion.div
+            style={{ maxWidth: '900px', margin: '0 auto' }}
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+          >
+            {mobileFaqs.map((faq, index) => (
+              <motion.div
+                key={index}
+                variants={itemVariants}
+                whileHover={{ scale: 1.02, x: 10, backgroundColor: '#ffffff', boxShadow: '0 10px 30px rgba(0,0,0,0.05)' }}
+                style={{
+                  marginBottom: '2rem',
+                  padding: '2rem',
+                  backgroundColor: '#f8fafc',
+                  borderRadius: '16px',
+                  border: '1px solid #e2e8f0',
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                <h3 style={{
+                  fontSize: '1.25rem',
+                  fontWeight: 700,
+                  color: '#911A20',
+                  marginBottom: '1rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px'
+                }}>
+                  <div style={{ width: '8px', height: '8px', backgroundColor: '#911A20', borderRadius: '50%' }} />
+                  {faq.question}
+                </h3>
+                <p style={{
+                  fontSize: '1.125rem',
+                  lineHeight: 1.6,
+                  color: '#475569',
+                  paddingLeft: '20px'
+                }}>
+                  {faq.answer}
+                </p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </section>
+
+        <section className={styles.ctaSection}>
+          <motion.div
+            className={styles.ctaCard}
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+          >
+            <h2 className={styles.ctaTitle}>Ready to secure your mobile applications?</h2>
+            <p className={styles.ctaText}>
+              Get in touch with our security experts to discuss your project requirements and get a custom quote.
+            </p>
+            <Link href="/contact" className={styles.startProjectBtn}>
+              Start Project
+              <ChevronRight size={20} />
+            </Link>
+          </motion.div>
+        </section>
+      </main>
+    );
+  }
+
+  if (service.slug === 'api-security-testing') {
+    const apiMethodologySteps = [
+      {
+        tab: "1. Planning & Recon",
+        title: "1. Planning and Reconnaissance",
+        description: "The assessment begins by defining scope, objectives, and rules of engagement. We gather detailed intelligence including API endpoints, base URLs, documentation files (Swagger / OpenAPI specifications), supported HTTP methods, authentication & authorization mechanisms, data formats (JSON, XML), and third-party integrations. This phase ensures full visibility into the API ecosystem before testing begins.",
+        image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=800"
+      },
+      {
+        tab: "2. Vulnerability Analysis",
+        title: "2. Discovery and Vulnerability Analysis",
+        description: "We interact with the API to map the attack surface and identify potential weaknesses. Using a combination of automated tools (e.g., Burp Suite, OWASP ZAP) and advanced manual testing techniques, we assess vulnerabilities guided by the OWASP API Security Top 10. We look for Broken Object Level Authorization (BOLA), Broken Authentication, Excessive Data Exposure, Mass Assignment, Security Misconfigurations, Injection attacks, and Improper Rate Limiting.",
+        image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800"
+      },
+      {
+        tab: "3. Exploitation",
+        title: "3. Exploitation",
+        description: "HacFy safely exploits confirmed vulnerabilities to assess real-world impact. This includes testing for unauthorized data access, privilege escalation, account takeover, sensitive information disclosure, and denial-of-service risks. This step demonstrates how an attacker could abuse the API and quantifies the business impact.",
+        image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800"
+      },
+      {
+        tab: "4. Post-Exploitation",
+        title: "4. Post-Exploitation",
+        description: "We evaluate whether vulnerabilities can provide persistent access, allow lateral movement within systems, expose additional sensitive datasets, or escalate access to administrative privileges. This mimics advanced persistent threat (APT) scenarios and highlights systemic risks.",
+        image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=800"
+      },
+      {
+        tab: "5. Reporting",
+        title: "5. Reporting and Remediation",
+        description: "HacFy delivers a detailed, executive-ready report including comprehensive vulnerability descriptions, Proof of Concept (PoC) evidence, severity ratings (CVSS scoring), business risk analysis, and clear remediation recommendations. We also provide secure coding best practice guidance and support development teams with remediation validation and re-testing services.",
+        image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800"
+      }
+    ];
+
+    const apiFaqs = [
+      {
+        question: "How long does an API penetration test take?",
+        answer: "Typically between 5–12 business days depending on the number of endpoints and complexity of the API."
+      },
+      {
+        question: "Do you test both internal and external APIs?",
+        answer: "Yes. HacFy assesses public, partner-facing, and internal APIs."
+      },
+      {
+        question: "Will testing impact production systems?",
+        answer: "Testing is usually performed in staging environments. Production testing can be coordinated with proper safeguards."
+      },
+      {
+        question: "Do you provide compliance-ready documentation?",
+        answer: "Yes. Our reports include detailed risk analysis suitable for audits such as PCI DSS, ISO 27001, and GDPR."
+      },
+      {
+        question: "Do you provide re-testing after remediation?",
+        answer: "Yes. We validate fixes and provide confirmation reports after remediation."
+      }
+    ];
+
+    return (
+      <main className={styles.mainContainer}>
+        <nav className={styles.nav}>
+          <Link href="/#services" className={styles.backButton}>
+            <ArrowLeft size={20} />
+            Back to Services
+          </Link>
+        </nav>
+
+        <header className={styles.webAppHero}>
+          <motion.div
+            className={styles.webAppHeroContent}
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <h1 className={styles.webAppHeroTitle}>What is an API Application Penetration Test?</h1>
+            <p className={styles.webAppHeroDescription}>
+              An API Application Penetration Test is a specialized security assessment focused on identifying vulnerabilities within Application Programming Interfaces (APIs). APIs power modern web, mobile, and cloud applications — making them a prime target for attackers.
+            </p>
+            <Link href="/contact" className={styles.heroCta}>
+              GET IN TOUCH
+            </Link>
+          </motion.div>
+          <motion.div
+            className={styles.webAppHeroImage}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{
+              opacity: 1,
+              scale: 1,
+              y: [0, -20, 0]
+            }}
+            transition={{
+              opacity: { duration: 0.6, delay: 0.2 },
+              scale: { duration: 0.6, delay: 0.2 },
+              y: { duration: 4, repeat: Infinity, ease: "easeInOut" }
+            }}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
+          >
+            <div className={styles.imageContainer} style={{ aspectRatio: '16/10' }}>
+              <Image
+                src={service.image}
+                alt={service.title}
+                fill
+                className={styles.image}
+                priority
+              />
+            </div>
+          </motion.div>
+        </header>
+
+        <section className={styles.introSection}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            className={styles.introText}
+          >
+            <p>
+              At HacFy, we simulate real-world cyberattacks against your APIs to uncover weaknesses in authentication and authorization controls, data exposure and insecure object access, input validation and injection flaws, business logic vulnerabilities, and rate limiting and denial-of-service protections.
+            </p>
+            <p style={{ marginTop: '1.5rem' }}>
+              Our testing methodology aligns with the OWASP API Security Top 10, ensuring your APIs remain secure, compliant, and resilient against evolving threats.
+            </p>
+          </motion.div>
+        </section>
+
+        <section className={styles.whySection}>
+          <h2 className={styles.whyTitle}>Why HacFy for Your API Penetration Testing Services?</h2>
+          <p className={styles.introText} style={{ marginInline: 'auto', marginBottom: '40px' }}>
+            At HacFy, we combine deep technical expertise with real-world attack simulation to provide thorough API security assessments.
+          </p>
+          <motion.div
+            className={styles.boxedContent}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+          >
+            <h3 className={styles.boxHeading}>Why Choose HacFy?</h3>
+            <motion.ul
+              className={styles.whyList}
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+            >
+              {[
+                "Manual + automated hybrid testing approach",
+                "Expertise in REST, SOAP, and GraphQL APIs",
+                "Advanced authentication testing (OAuth 2.0, JWT, API Keys)",
+                "Business logic flaw identification",
+                "Detailed CVSS-based risk scoring",
+                "Clear, developer-friendly remediation guidance",
+                "Post-remediation re-testing support"
+              ].map((item, index) => (
+                <motion.li
+                  key={index}
+                  className={styles.whyItem}
+                  variants={itemVariants}
+                  whileHover={listItemHover}
+                >
+                  <CheckCircle2 className={styles.checkIcon} size={24} />
+                  <span>{item}</span>
+                </motion.li>
+              ))}
+            </motion.ul>
+          </motion.div>
+          <motion.p
+            className={styles.introText}
+            style={{ marginTop: '4rem', marginInline: 'auto', textAlign: 'left' }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, amount: 0.2 }}
+          >
+            We help organizations secure their APIs before attackers exploit them.
+          </motion.p>
+        </section>
+
+        <section className={styles.methodologySection}>
+          <h2 className={styles.methodologyTitle}>3. Our Industry-Proven Methodology</h2>
+          <p className={styles.introText} style={{ marginInline: 'auto', marginBottom: '40px', textAlign: 'center' }}>
+            HacFy follows a structured and comprehensive methodology to ensure complete API security coverage.
+          </p>
+          <div className={styles.methodologyBox}>
+            <div className={styles.tabsContainer} style={{ gridTemplateColumns: 'repeat(5, 1fr)' }}>
+              {apiMethodologySteps.map((step, index) => (
+                <button
+                  key={step.tab}
+                  className={`${styles.tabButton} ${activeStep === index ? styles.activeTab : ''}`}
+                  onClick={() => setActiveStep(index)}
+                  style={{ fontSize: '0.9rem', padding: '15px 10px' }}
+                >
+                  {step.tab}
+                </button>
+              ))}
+            </div>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeStep}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+                className={styles.tabContent}
+              >
+                <div className={styles.methodologyImage}>
+                  <div className={styles.squareImageContainer}>
+                    <Image
+                      src={apiMethodologySteps[activeStep].image}
+                      alt={apiMethodologySteps[activeStep].tab}
+                      fill
+                      className={styles.image}
+                    />
+                  </div>
+                </div>
+                <div className={styles.methodologyText}>
+                  <h3 className={styles.stepTitle}>{apiMethodologySteps[activeStep].title}</h3>
+                  <p className={styles.stepDescription}>
+                    {apiMethodologySteps[activeStep].description}
+                  </p>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </section>
+
+        <section className={styles.benefitsSection}>
+          <div className={styles.centeredHeader}>
+            <h2 className={styles.benefitsTitle}>4. Benefits of an API Application Penetration Test</h2>
+          </div>
+          <div className={styles.benefitsContainer}>
+            <div className={styles.benefitsLeft}>
+              <p className={styles.benefitsIntroText}>
+                Conducting an API penetration test provides significant business and security advantages:
+              </p>
+              <motion.div
+                className={styles.benefitsList}
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+              >
+                {[
+                  "Protect sensitive data from unauthorised access",
+                  "Meet regulatory and compliance requirements",
+                  "Secure APIs before production deployment",
+                  "Reduce risk of financial and reputational damage",
+                  "Identify business logic vulnerabilities",
+                  "Strengthen authentication and authorization mechanisms"
+                ].map((benefit, index) => (
+                  <motion.div
+                    key={index}
+                    className={styles.benefitItem}
+                    variants={itemVariants}
+                    whileHover={listItemHover}
+                  >
+                    <Check className={styles.benefitCheck} size={24} />
+                    <span className={styles.benefitPointText}>{benefit}</span>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </div>
+            <div className={styles.benefitsRight}>
+              <div className={styles.saasCard}>
+                <div className={styles.cardVisual}>
+                  <Image
+                    src="https://images.unsplash.com/photo-1516251193007-45ef944ab0c6?q=80&w=800"
+                    alt="API Security Visual"
+                    fill
+                    style={{ objectFit: 'contain' }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className={styles.centeredFooter}>
+            <p className={styles.strongCta}>
+              With APIs serving as the backbone of digital applications, proactive testing is essential.
+            </p>
+          </div>
+        </section>
+
+        <section className={styles.introSection} style={{ marginTop: '100px', marginBottom: '100px' }}>
+          <div className={styles.centeredHeader}>
+            <h2 className={styles.benefitsTitle}>5. What Are You Waiting For? Get a Quote Today & Fortify Your API Applications</h2>
+          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className={styles.introText}
+            style={{ marginInline: 'auto', textAlign: 'center', maxWidth: '1000px' }}
+          >
+            <p>
+              APIs are high-value targets for attackers — don’t leave them exposed. Partner with HacFy to strengthen your API security posture with expert-driven penetration testing services.
+            </p>
+            <p style={{ marginTop: '1.5rem' }}>
+              Contact us today for a customised API security assessment and quotation.
+            </p>
+          </motion.div>
+        </section>
+
+        <section className={styles.introSection} style={{ marginBottom: '100px' }}>
+          <div className={styles.centeredHeader}>
+            <h2 className={styles.benefitsTitle}>6. FAQs</h2>
+          </div>
+          <motion.div
+            style={{ maxWidth: '900px', margin: '0 auto' }}
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+          >
+            {apiFaqs.map((faq, index) => (
+              <motion.div
+                key={index}
+                variants={itemVariants}
+                whileHover={{ scale: 1.02, x: 10, backgroundColor: '#ffffff', boxShadow: '0 10px 30px rgba(0,0,0,0.05)' }}
+                style={{
+                  marginBottom: '2rem',
+                  padding: '2rem',
+                  backgroundColor: '#f8fafc',
+                  borderRadius: '16px',
+                  border: '1px solid #e2e8f0',
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                <h3 style={{
+                  fontSize: '1.25rem',
+                  fontWeight: 700,
+                  color: '#911A20',
+                  marginBottom: '1rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px'
+                }}>
+                  <div style={{ width: '8px', height: '8px', backgroundColor: '#911A20', borderRadius: '50%' }} />
+                  {faq.question}
+                </h3>
+                <p style={{
+                  fontSize: '1.125rem',
+                  lineHeight: 1.6,
+                  color: '#475569',
+                  paddingLeft: '20px'
+                }}>
+                  {faq.answer}
+                </p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </section>
+
+        <section className={styles.ctaSection}>
+          <motion.div
+            className={styles.ctaCard}
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+          >
+            <h2 className={styles.ctaTitle}>Ready to secure your API applications?</h2>
             <p className={styles.ctaText}>
               Get in touch with our security experts to discuss your project requirements and get a custom quote.
             </p>
