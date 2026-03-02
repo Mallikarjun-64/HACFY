@@ -51,9 +51,9 @@ export const services: Service[] = [
     image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=1200',
     features: [
       { title: 'Web Application', slug: 'web-application' },
-      { title: 'Mobile App Security' },
-      { title: 'API Security Testing' },
-      { title: 'Source Code Review' }
+      { title: 'Mobile Application', slug: 'mobile-application' },
+      { title: 'API Security Testing', slug: 'api-security-testing' },
+      { title: 'Desktop Applications', slug: 'desktop-application' }
     ]
   },
   {
@@ -93,6 +93,21 @@ export const services: Service[] = [
     features: ['Phishing Simulations', 'Security Awareness Training', 'Social Engineering', 'Physical Access Testing']
   },
   {
+    slug: 'mobile-application',
+    title: 'Mobile Application Penetration Testing',
+    description: 'A Mobile Application Penetration Test is a comprehensive security assessment performed on Android and iOS applications to identify vulnerabilities that could be exploited by attackers.',
+    fullDetails: 'Mobile Application Penetration Testing',
+    icon: 'AppWindow',
+    image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&q=80&w=1200',
+    features: [
+      'Android & iOS Security Testing',
+      'Static & Dynamic Analysis',
+      'API Security Assessment',
+      'Compliance Reporting'
+    ],
+    hidden: true
+  },
+  {
     slug: 'web-application',
     title: 'Web Application',
     description: 'A Web Application Penetration Test is a controlled security assessment designed to identify vulnerabilities in your web applications before attackers do. It simulates real-world cyberattacks to uncover security weaknesses that could lead to data breaches, financial loss, or reputational damage.',
@@ -106,6 +121,38 @@ export const services: Service[] = [
       'API Security Assessment',
       'Input Validation Testing',
       'Access Control Audit'
+    ],
+    hidden: true
+  },
+  {
+    slug: 'api-security-testing',
+    title: 'API Security Testing',
+    description: 'An API Application Penetration Test is a specialized security assessment focused on identifying vulnerabilities within Application Programming Interfaces (APIs).',
+    fullDetails: 'API Security Testing',
+    icon: 'Shield',
+    image: 'https://images.unsplash.com/photo-1516251193007-45ef944ab0c6?auto=format&fit=crop&q=80&w=1200',
+    features: [
+      'Authentication & Authorization Testing',
+      'Data Exposure Analysis',
+      'Injection & Input Validation',
+      'Rate Limiting Evaluation'
+    ],
+    hidden: true
+  },
+  {
+    slug: 'desktop-application',
+    title: 'Desktop Application Penetration Testing',
+    description: 'Desktop Application Penetration Testing is a specialized security assessment focused on identifying vulnerabilities in Windows, macOS, or Linux-based client applications. Unlike web applications, desktop applications often interact directly with operating systems, local storage, memory, and backend services — creating unique attack surfaces.',
+    fullDetails: '1. What is Desktop Application Penetration Testing?\n\nDesktop Application Penetration Testing is a specialized security assessment focused on identifying vulnerabilities in Windows, macOS, or Linux-based client applications. Unlike web applications, desktop applications often interact directly with operating systems, local storage, memory, and backend services — creating unique attack surfaces.\n\nAt HacFy, we simulate real-world attack scenarios to uncover security weaknesses such as: Hardcoded credentials and encryption keys, Insecure local data storage, Client-side authentication bypass, DLL hijacking vulnerabilities, Injection flaws (SQL, Command, XML), Weak client-server communication security, and Privilege escalation risks.\n\nWhy HacFy For Your Desktop Application Penetration Testing Services?\n\nChoosing the right security partner is critical. At HacFy, we deliver more than vulnerability reports — we deliver clarity, risk context, and actionable solutions.\n\nWhy organizations trust HacFy:\n\n• Expertise in Windows, macOS & Linux applications\n• Experience with .NET, Java, C++, Electron, and other frameworks\n• Advanced binary analysis and reverse engineering capabilities\n• Manual + dynamic testing approach\n• CVSS-based severity assessment\n• Developer-focused remediation guidance\n• Retesting and validation support\n\nWe focus on business impact, not just technical findings. Our goal is to strengthen your security posture while ensuring minimal disruption to operations.',
+    icon: 'Monitor',
+    image: 'https://images.unsplash.com/photo-1517433447744-d603a2742767?auto=format&fit=crop&q=80&w=1200',
+    features: [
+      'Binary Analysis & Reverse Engineering',
+      'Insecure Local Data Storage Audit',
+      'DLL Hijacking & Injection Testing',
+      'Client-Server Communication Security',
+      'Privilege Escalation Analysis',
+      'Runtime Memory Inspection'
     ],
     hidden: true
   }
