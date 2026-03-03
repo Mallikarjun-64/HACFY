@@ -13,9 +13,102 @@ import {
   Lock,
   Target,
   CheckCircle2,
-  Check
+  Check,
+  Search,
+  Users,
+  FileText,
+  Handshake,
+  Settings,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react';
+
+const FAQAccordion = ({ faqs }: { faqs: { question: string; answer: string }[] }) => {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  return (
+    <div style={{ maxWidth: '900px', margin: '0 auto', width: '100%' }}>
+      <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+        <h2 style={{ 
+          fontSize: '2.5rem', 
+          fontWeight: 800, 
+          color: '#0f172a',
+          position: 'relative',
+          display: 'inline-block',
+          paddingBottom: '10px'
+        }}>
+          FAQ
+          <div style={{ 
+            position: 'absolute', 
+            bottom: 0, 
+            left: '50%', 
+            transform: 'translateX(-50%)', 
+            width: '40px', 
+            height: '3px', 
+            backgroundColor: '#DA1515F3' 
+          }} />
+        </h2>
+      </div>
+      {faqs.map((faq, index) => (
+        <div key={index} style={{ marginBottom: '16px' }}>
+          <button
+            onClick={() => setOpenIndex(openIndex === index ? null : index)}
+            style={{
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: '20px 0',
+              backgroundColor: 'transparent',
+              border: 'none',
+              borderTop: index === 0 ? 'none' : 'none',
+              cursor: 'pointer',
+              textAlign: 'left'
+            }}
+          >
+            <span style={{ 
+              fontSize: '1.125rem', 
+              fontWeight: 600, 
+              color: '#1e293b' 
+            }}>
+              {faq.question}
+            </span>
+            {openIndex === index ? (
+              <ChevronUp size={20} color="#64748b" />
+            ) : (
+              <ChevronDown size={20} color="#64748b" />
+            )}
+          </button>
+          <AnimatePresence>
+            {openIndex === index && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3, ease: 'easeInOut' }}
+                style={{ overflow: 'hidden' }}
+              >
+                <div style={{ 
+                  padding: '24px', 
+                  backgroundColor: '#F9FAFB', 
+                  borderRadius: '8px',
+                  marginBottom: '20px',
+                  color: '#475569',
+                  lineHeight: 1.6,
+                  fontSize: '1rem'
+                }}>
+                  {faq.answer}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      ))}
+    </div>
+  );
+};
 import { Service } from '@/lib/services-data';
+import TrustInfographic from '@/components/sections/TrustInfographic';
 import styles from './ServicePage.module.css';
 
 const featureIcons = [Shield, Zap, Lock, Target];
@@ -37,75 +130,75 @@ export default function ServicePageClient({ service }: { service: Service }) {
 
   const methodologySteps = isDesktopApp ? [
     {
-      tab: "1. Planning",
-      title: "1. Planning & Information Gathering",
+      tab: "Planning",
+      title: "Planning & Information Gathering",
       description: "We define scope and testing objectives, understand the architecture and technology stack, and identify communication channels (HTTP/S, TCP, IPC, etc.).",
       image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=800"
     },
     {
-      tab: "2. Analysis",
-      title: "2. Vulnerability Analysis",
+      tab: "Analysis",
+      title: "Vulnerability Analysis",
       description: "Static Analysis: Review binaries for hardcoded secrets and logic flaws.\nDynamic Analysis: Monitor runtime behavior including memory, file system, registry, and network traffic.",
       image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800"
     },
     {
-      tab: "3. Testing",
-      title: "3. Client-Side Control Testing",
+      tab: "Testing",
+      title: "Client-Side Control Testing",
       description: "We test client-side security controls and Inter-Process Communication (IPC) mechanisms for weaknesses that could be exploited locally.",
       image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=800"
     },
     {
-      tab: "4. Exploitation",
-      title: "4. Exploitation & Privilege Escalation",
+      tab: "Exploitation",
+      title: "Exploitation & Privilege Escalation",
       description: "We test for DLL hijacking, insecure loading paths, and attempt injection attacks (SQL, Command, XML) to bypass authentication or licensing mechanisms.",
       image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800"
     },
     {
-      tab: "5. Impact Assessment",
-      title: "5. Business Impact Analysis",
+      tab: "Impact Assessment",
+      title: "Business Impact Analysis",
       description: "We measure the potential business impact of identified vulnerabilities, ensuring risks are understood in the context of your specific software environment.",
       image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800"
     },
     {
-      tab: "6. Reporting",
-      title: "6. Reporting & Remediation",
+      tab: "Reporting",
+      title: "Reporting & Remediation",
       description: "We deliver a detailed report with CVSS severity ratings, proof of concept, and clear remediation guidance to help your developers fix vulnerabilities effectively.",
       image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800"
     }
   ] : [
     {
-      tab: "1. Planning & Scoping",
-      title: "1. Planning and Scoping",
+      tab: "Planning & Scoping",
+      title: "Planning and Scoping",
       description: "We begin by defining objectives, scope, boundaries, timelines, and compliance requirements. This ensures the assessment aligns with your business goals and overall risk profile.",
       image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=800"
     },
     {
-      tab: "2. Reconnaissance",
-      title: "2. Reconnaissance / Information Gathering",
+      tab: "Reconnaissance",
+      title: "Reconnaissance / Information Gathering",
       description: "Our team gathers intelligence to understand the application architecture, technologies, integrations, hosting environment, and potential entry points.",
       image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800"
     },
     {
-      tab: "3. Mapping",
-      title: "3. Mapping / Configuration Management",
+      tab: "Mapping",
+      title: "Mapping / Configuration Management",
       description: "We map application workflows, user roles, authentication mechanisms, and access control paths to understand how the system behaves under different scenarios.",
       image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=800"
     },
     {
-      tab: "4. Vulnerability Analysis",
-      title: "4. Vulnerability Assessment / Analysis",
+      tab: "Vulnerability Analysis",
+      title: "Vulnerability Assessment / Analysis",
       description: "Using a combination of automated tools and deep manual testing techniques, we identify vulnerabilities based on industry frameworks such as OWASP Top 10. We also assess logic flaws and misconfigurations often missed by automated scanners.",
       image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800"
     },
     {
-      tab: "5. Exploitation",
-      title: "5. Exploitation",
+      tab: "Exploitation",
+      title: "Exploitation",
       description: "We safely simulate real-world attack scenarios to validate vulnerabilities and measure their impact. This step helps determine the actual business risk associated with each finding.",
       image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800"
     },
     {
-      tab: "6. Reporting",
-      title: "6. Reporting and Remediation",
+      tab: "Reporting",
+      title: "Reporting and Remediation",
       description: "We provide a comprehensive report including:\n\n• Executive summary for leadership\n• Technical vulnerability details\n• Risk ratings and impact analysis\n• Step-by-step remediation guidance\n• Re-test support after fixes are implemented\n\nOur reports are clear, structured, and actionable — enabling your development and security teams to respond effectively.",
       image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800"
     }
@@ -239,19 +332,19 @@ export default function ServicePageClient({ service }: { service: Service }) {
     const singleServiceName = isWebApp ? 'Web Application' : 'Desktop Application';
 
     const benefits = isDesktopApp ? [
-      "Protect sensitive local and backend data",
-      "Prevent privilege escalation attacks",
-      "Reduce risk of reverse engineering and tampering",
-      "Ensure regulatory and compliance readiness",
-      "Strengthen client-server communication security",
-      "Improve overall software resilience"
+      { text: "Protect sensitive local and backend data", icon: Lock },
+      { text: "Prevent privilege escalation attacks", icon: Shield },
+      { text: "Reduce risk of reverse engineering and tampering", icon: Search },
+      { text: "Ensure regulatory and compliance readiness", icon: FileText },
+      { text: "Strengthen client-server communication security", icon: Handshake },
+      { text: "Improve overall software resilience", icon: Settings }
     ] : [
-      "Identify vulnerabilities before attackers exploit them",
-      "Protect sensitive customer and organizational data",
-      "Reduce risk of financial and reputational damage",
-      "Improve compliance readiness (ISO, PCI-DSS, SOC 2, etc.)",
-      "Strengthen customer trust and brand credibility",
-      "Enhance overall security posture"
+      { text: "Identify vulnerabilities before attackers exploit them", icon: Search },
+      { text: "Protect sensitive customer and organizational data", icon: Lock },
+      { text: "Reduce risk of financial and reputational damage", icon: Target },
+      { text: "Improve compliance readiness (ISO, PCI-DSS, SOC 2, etc.)", icon: FileText },
+      { text: "Strengthen customer trust and brand credibility", icon: Handshake },
+      { text: "Enhance overall security posture", icon: Shield }
     ];
 
     return (
@@ -311,18 +404,18 @@ export default function ServicePageClient({ service }: { service: Service }) {
         </header>
 
         {/* Intro Section */}
-        <section className={styles.introSection}>
+        {/* <section className={styles.introSection}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             className={styles.introText}
-          >
-            {introParagraphs.map((para, i) => (
+          > */}
+            {/* {introParagraphs.map((para, i) => (
               <p key={i} style={{ marginTop: i > 0 ? '1.5rem' : 0 }}>{para}</p>
             ))}
           </motion.div>
-        </section>
+        </section> */}
 
         {/* Why Section */}
         <section className={styles.whySection}>
@@ -331,34 +424,8 @@ export default function ServicePageClient({ service }: { service: Service }) {
             {subIntroText}
           </p>
 
-          <motion.div 
-            className={styles.boxedContent}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-          >
-            <h3 className={styles.boxHeading}>{whyListHeading}</h3>
-            <motion.ul 
-              className={styles.whyList}
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }}
-            >
-              {whyList.map((item, index) => (
-                <motion.li 
-                  key={index} 
-                  className={styles.whyItem} 
-                  variants={itemVariants}
-                  whileHover={listItemHover}
-                >
-                  <CheckCircle2 className={styles.checkIcon} size={24} />
-                  <span>{item}</span>
-                </motion.li>
-              ))}
-            </motion.ul>
-          </motion.div>
-          
+          <TrustInfographic />
+{/*           
           {closingText && (
             <motion.p 
               className={styles.introText}
@@ -369,12 +436,12 @@ export default function ServicePageClient({ service }: { service: Service }) {
             >
               {closingText}
             </motion.p>
-          )}
+          )} */}
         </section>
 
         {/* Methodology Section */}
         <section className={styles.methodologySection}>
-          <h2 className={styles.methodologyTitle}>3. Our Industry-Proven Methodology</h2>
+          <h2 className={styles.methodologyTitle}>OUR INDUSTRY PROVEN METHODOLOGY</h2>
           <p className={styles.introText} style={{ marginInline: 'auto', marginBottom: '40px', textAlign: 'center' }}>
             HacFy follows a structured and comprehensive penetration testing methodology designed to deliver measurable security improvements.
           </p>
@@ -400,16 +467,6 @@ export default function ServicePageClient({ service }: { service: Service }) {
                 transition={{ duration: 0.3 }}
                 className={styles.tabContent}
               >
-                <div className={styles.methodologyImage}>
-                  <div className={styles.squareImageContainer}>
-                    <Image
-                      src={methodologySteps[activeStep].image}
-                      alt={methodologySteps[activeStep].tab}
-                      fill
-                      className={styles.image}
-                    />
-                  </div>
-                </div>
                 <div className={styles.methodologyText}>
                   <h3 className={styles.stepTitle}>{methodologySteps[activeStep].title}</h3>
                   <p className={styles.stepDescription} style={{ whiteSpace: 'pre-line' }}>
@@ -421,131 +478,60 @@ export default function ServicePageClient({ service }: { service: Service }) {
           </div>
         </section>
 
-        {/* Benefits Section - SaaS Split Layout */}
+        {/* Benefits Section - Theme Layout */}
         <section className={styles.benefitsSection}>
-          <div className={styles.centeredHeader}>
-            <h2 className={styles.benefitsTitle}>4. Benefits of a {singleServiceName} Penetration Test</h2>
-          </div>
           <div className={styles.benefitsContainer}>
-            <div className={styles.benefitsLeft}>
-              <p className={styles.benefitsIntroText}>
-                Investing in a {singleServiceName} Penetration Test provides tangible business advantages:
-              </p>
-              
-              <motion.div 
-                className={styles.benefitsList}
-                variants={containerVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.2 }}
-              >
-                {benefits.map((benefit, index) => (
-                  <motion.div 
-                    key={index} 
-                    className={styles.benefitItem} 
-                    variants={itemVariants}
-                    whileHover={listItemHover}
-                  >
-                    <Check className={styles.benefitCheck} size={24} />
-                    <span className={styles.benefitPointText}>{benefit}</span>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </div>
-
-            <div className={styles.benefitsRight}>
-              <div className={styles.saasCard}>
-                <div className={styles.cardVisual}>
-                  <Image
-                    src="https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=800"
-                    alt="Cybersecurity Visual"
-                    fill
-                    style={{ objectFit: 'contain' }}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className={styles.centeredFooter}>
-            <p className={styles.strongCta}>
-              At HacFy, we help you move from reactive security to proactive defence.
-            </p>
+            <header className={styles.centeredHeader}>
+              <h2 className={styles.benefitsTitle}>Benefits of a {singleServiceName} Penetration Test</h2>
+            </header>
+            
+            <motion.div 
+              className={styles.benefitsGrid}
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+            >
+              {benefits.map((benefit, index) => (
+                <motion.div 
+                  key={index} 
+                  className={styles.benefitItemTheme} 
+                  variants={itemVariants}
+                >
+                  <div className={styles.iconWrapperTheme}>
+                    <benefit.icon size={24} />
+                  </div>
+                  <span className={styles.benefitTextTheme}>{benefit.text}</span>
+                </motion.div>
+              ))}
+            </motion.div>
           </div>
         </section>
 
-        {/* New Call to Action Section 5 */}
-        <section className={styles.introSection} style={{ marginTop: '100px', marginBottom: '100px' }}>
-          <div className={styles.centeredHeader}>
-            <h2 className={styles.benefitsTitle}>5. What Are You Waiting For? Get a Quote Today & Fortify Your {serviceName}</h2>
-          </div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
+        {/* Custom Package Section */}
+        <section className={styles.customPackageSection}>
+          <motion.div 
+            className={styles.customPackageBanner}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className={styles.introText}
-            style={{ marginInline: 'auto', textAlign: 'center', maxWidth: '1000px' }}
+            transition={{ duration: 0.8 }}
           >
-            <p>
-              Cyber threats evolve every day. Waiting until after a breach is not a strategy.
-              Partner with HacFy to proactively secure your {serviceName.toLowerCase()} with industry-grade penetration testing.
-              Our experts are ready to assess, identify, and help you remediate critical vulnerabilities before they impact your business.
-            </p>
-            <p style={{ marginTop: '1.5rem' }}>
-              Contact us today for a customised quote and take the next step toward stronger security.
-            </p>
+            <div className={styles.customPackageContent}>
+              <h2 className={styles.customPackageTitle}>Get a Quote Today & Fortify Your {serviceName}</h2>
+              <p className={styles.customPackageDescription}>
+                Cyber threats evolve every day. Waiting until after a breach is not a strategy. Partner with HacFy to proactively secure your {serviceName.toLowerCase()} with industry-grade penetration testing.
+              </p>
+            </div>
+            <Link href="/contact" className={styles.customPackageBtn}>
+              Get a Quote
+            </Link>
           </motion.div>
         </section>
 
         {/* FAQ Section 6 */}
         <section className={styles.introSection} style={{ marginBottom: '100px' }}>
-          <div className={styles.centeredHeader}>
-            <h2 className={styles.benefitsTitle}>6. FAQs</h2>
-          </div>
-          <motion.div 
-            style={{ maxWidth: '900px', margin: '0 auto' }}
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
-          >
-            {faqs.map((faq, index) => (
-              <motion.div 
-                key={index}
-                variants={itemVariants}
-                whileHover={{ scale: 1.02, x: 10, backgroundColor: '#ffffff', boxShadow: '0 10px 30px rgba(0,0,0,0.05)' }}
-                style={{ 
-                  marginBottom: '2rem', 
-                  padding: '2rem', 
-                  backgroundColor: '#f8fafc', 
-                  borderRadius: '16px',
-                  border: '1px solid #e2e8f0',
-                  transition: 'all 0.3s ease'
-                }}
-              >
-                <h3 style={{ 
-                  fontSize: '1.25rem', 
-                  fontWeight: 700, 
-                  color: '#911A20', 
-                  marginBottom: '1rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '12px'
-                }}>
-                  <div style={{ width: '8px', height: '8px', backgroundColor: '#911A20', borderRadius: '50%' }} />
-                  {faq.question}
-                </h3>
-                <p style={{ 
-                  fontSize: '1.125rem', 
-                  lineHeight: 1.6, 
-                  color: '#475569',
-                  paddingLeft: '20px'
-                }}>
-                  {faq.answer}
-                </p>
-              </motion.div>
-            ))}
-          </motion.div>
+          <FAQAccordion faqs={faqs} />
         </section>
 
         {/* CTA Section */}
@@ -571,40 +557,41 @@ export default function ServicePageClient({ service }: { service: Service }) {
   }
 
   if (service.slug === 'mobile-application') {
+    const serviceName = 'Mobile Applications';
     const mobileMethodologySteps = [
       {
-        tab: "1. Planning & Scoping",
-        title: "1. Planning and Scoping",
+        tab: "Planning & Scoping",
+        title: "Planning and Scoping",
         description: "We begin by understanding the application architecture and identifying Android and/or iOS platforms in scope. Compliance objectives including GDPR and PCI DSS are defined alongside testing timelines and reporting expectations. We then confirm testing boundaries, finalise the attack surface scope, set up secure testing environments, and define clear success criteria.",
         image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=800"
       },
       {
-        tab: "2. Reconnaissance",
-        title: "2. Intelligence Gathering (Reconnaissance)",
+        tab: "Reconnaissance",
+        title: "Intelligence Gathering (Reconnaissance)",
         description: "Identifying the application package name and version, mapping backend endpoints, and conducting OSINT research across public repositories, exposed credentials, and forums. We also review third-party integrations to develop a comprehensive picture of the application's attack surface.",
         image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800"
       },
       {
-        tab: "3. Static Analysis (SAST)",
-        title: "3. Static Analysis (SAST)",
+        tab: "Static Analysis (SAST)",
+        title: "Static Analysis (SAST)",
         description: "Decompiling and reviewing application binaries without execution to identify hardcoded secrets such as API keys, tokens, and credentials. We assess insecure configurations, weak cryptographic algorithms, improper certificate validation, and code obfuscation weaknesses to provide a comprehensive static security analysis.",
         image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800"
       },
       {
-        tab: "4. Dynamic Analysis (DAST)",
-        title: "4. Dynamic Analysis (DAST)",
+        tab: "Dynamic Analysis (DAST)",
+        title: "Dynamic Analysis (DAST)",
         description: "Executing the application on physical or emulated devices to observe runtime behavior. Network traffic is captured and modified using tools like Burp Suite to test for insecure data transmission and API manipulation. Local data storage is inspected across shared preferences, SQLite databases, and temporary files. Security protections including SSL pinning, root/jailbreak detection, and runtime controls are systematically tested and bypassed to evaluate true resilience.",
         image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=800"
       },
       {
-        tab: "5. Exploitation",
-        title: "5. Exploitation",
+        tab: "Exploitation",
+        title: "Exploitation",
         description: "Actively exploiting identified vulnerabilities to determine real business impact. Our team tests for SQL Injection, authentication bypass, Insecure Direct Object Reference (IDOR), privilege escalation, and business logic flaws. This phase demonstrates how attackers could compromise data, accounts, or backend systems.",
         image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800"
       },
       {
-        tab: "6. Reporting",
-        title: "6. Reporting and Remediation",
+        tab: "Reporting",
+        title: "Reporting and Remediation",
         description: "HacFy delivers a detailed, executive-ready penetration testing report including technical vulnerability descriptions, Proof of Concept (PoC), risk severity based on CVSS scoring, business impact assessment, and step-by-step remediation guidance. We also provide post-remediation validation support to confirm vulnerabilities are properly resolved.",
         image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800"
       }
@@ -753,7 +740,7 @@ export default function ServicePageClient({ service }: { service: Service }) {
         </section>
 
         <section className={styles.methodologySection}>
-          <h2 className={styles.methodologyTitle}>3. Our Industry-Proven Methodology</h2>
+          <h2 className={styles.methodologyTitle}>Our Industry-Proven Methodology</h2>
           <p className={styles.introText} style={{ marginInline: 'auto', marginBottom: '40px', textAlign: 'center' }}>
             At HacFy, we follow a structured and systematic testing approach to ensure complete coverage and measurable results.
           </p>
@@ -778,16 +765,6 @@ export default function ServicePageClient({ service }: { service: Service }) {
                 transition={{ duration: 0.3 }}
                 className={styles.tabContent}
               >
-                <div className={styles.methodologyImage}>
-                  <div className={styles.squareImageContainer}>
-                    <Image
-                      src={mobileMethodologySteps[activeStep].image}
-                      alt={mobileMethodologySteps[activeStep].tab}
-                      fill
-                      className={styles.image}
-                    />
-                  </div>
-                </div>
                 <div className={styles.methodologyText}>
                   <h3 className={styles.stepTitle}>{mobileMethodologySteps[activeStep].title}</h3>
                   <p className={styles.stepDescription}>
@@ -800,129 +777,63 @@ export default function ServicePageClient({ service }: { service: Service }) {
         </section>
 
         <section className={styles.benefitsSection}>
-          <div className={styles.centeredHeader}>
-            <h2 className={styles.benefitsTitle}>4. Benefits of a Mobile Application Penetration Test</h2>
-          </div>
           <div className={styles.benefitsContainer}>
-            <div className={styles.benefitsLeft}>
-              <p className={styles.benefitsIntroText}>
-                Investing in mobile security testing provides significant advantages:
-              </p>
-              <motion.div
-                className={styles.benefitsList}
-                variants={containerVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.2 }}
-              >
-                {[
-                  "Protect sensitive customer and business data",
-                  "Reduce risk of financial and reputational damage",
-                  "Ensure regulatory compliance",
-                  "Secure application before public release",
-                  "Strengthen customer trust",
-                  "Identify logic flaws beyond automated scanning"
-                ].map((benefit, index) => (
-                  <motion.div
-                    key={index}
-                    className={styles.benefitItem}
-                    variants={itemVariants}
-                    whileHover={listItemHover}
-                  >
-                    <Check className={styles.benefitCheck} size={24} />
-                    <span className={styles.benefitPointText}>{benefit}</span>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </div>
-            <div className={styles.benefitsRight}>
-              <div className={styles.saasCard}>
-                <div className={styles.cardVisual}>
-                  <Image
-                    src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=800"
-                    alt="Mobile Security Visual"
-                    fill
-                    style={{ objectFit: 'contain' }}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className={styles.centeredFooter}>
-            <p className={styles.strongCta}>
-              Proactive security testing saves organizations from costly breaches and legal consequences.
-            </p>
+            <header className={styles.centeredHeader}>
+              <h2 className={styles.benefitsTitle}>Benefits of a Mobile Application Penetration Test</h2>
+            </header>
+            <motion.div 
+              className={styles.benefitsGrid}
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+            >
+              {[
+                { text: "Protect sensitive customer and business data", icon: Lock },
+                { text: "Reduce risk of financial and reputational damage", icon: Target },
+                { text: "Ensure regulatory compliance", icon: FileText },
+                { text: "Secure application before public release", icon: Shield },
+                { text: "Strengthen customer trust", icon: Handshake },
+                { text: "Identify logic flaws beyond automated scanning", icon: Search }
+              ].map((benefit, index) => (
+                <motion.div 
+                  key={index} 
+                  className={styles.benefitItemTheme} 
+                  variants={itemVariants}
+                >
+                  <div className={styles.iconWrapperTheme}>
+                    <benefit.icon size={24} />
+                  </div>
+                  <span className={styles.benefitTextTheme}>{benefit.text}</span>
+                </motion.div>
+              ))}
+            </motion.div>
           </div>
         </section>
 
-        <section className={styles.introSection} style={{ marginTop: '100px', marginBottom: '100px' }}>
-          <div className={styles.centeredHeader}>
-            <h2 className={styles.benefitsTitle}>5. What Are You Waiting For? Get a Quote Today & Fortify Your Mobile Applications</h2>
-          </div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
+        {/* Custom Package Section */}
+        <section className={styles.customPackageSection}>
+          <motion.div 
+            className={styles.customPackageBanner}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className={styles.introText}
-            style={{ marginInline: 'auto', textAlign: 'center', maxWidth: '1000px' }}
+            transition={{ duration: 0.8 }}
           >
-            <p>
-              Cyber threats are evolving rapidly — your mobile applications should stay ahead. Partner with HacFy to secure your Android and iOS applications through expert-driven penetration testing services.
-            </p>
-            <p style={{ marginTop: '1.5rem' }}>
-              Contact us today for a customized security assessment and detailed quotation.
-            </p>
+            <div className={styles.customPackageContent}>
+              <h2 className={styles.customPackageTitle}>Get a Quote Today & Fortify Your {serviceName}</h2>
+              <p className={styles.customPackageDescription}>
+                Cyber threats evolve every day. Waiting until after a breach is not a strategy. Partner with HacFy to proactively secure your {serviceName.toLowerCase()} with industry-grade penetration testing.
+              </p>
+            </div>
+            <Link href="/contact" className={styles.customPackageBtn}>
+              Get a Quote
+            </Link>
           </motion.div>
         </section>
 
         <section className={styles.introSection} style={{ marginBottom: '100px' }}>
-          <div className={styles.centeredHeader}>
-            <h2 className={styles.benefitsTitle}>6. FAQs</h2>
-          </div>
-          <motion.div
-            style={{ maxWidth: '900px', margin: '0 auto' }}
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
-          >
-            {mobileFaqs.map((faq, index) => (
-              <motion.div
-                key={index}
-                variants={itemVariants}
-                whileHover={{ scale: 1.02, x: 10, backgroundColor: '#ffffff', boxShadow: '0 10px 30px rgba(0,0,0,0.05)' }}
-                style={{
-                  marginBottom: '2rem',
-                  padding: '2rem',
-                  backgroundColor: '#f8fafc',
-                  borderRadius: '16px',
-                  border: '1px solid #e2e8f0',
-                  transition: 'all 0.3s ease'
-                }}
-              >
-                <h3 style={{
-                  fontSize: '1.25rem',
-                  fontWeight: 700,
-                  color: '#911A20',
-                  marginBottom: '1rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '12px'
-                }}>
-                  <div style={{ width: '8px', height: '8px', backgroundColor: '#911A20', borderRadius: '50%' }} />
-                  {faq.question}
-                </h3>
-                <p style={{
-                  fontSize: '1.125rem',
-                  lineHeight: 1.6,
-                  color: '#475569',
-                  paddingLeft: '20px'
-                }}>
-                  {faq.answer}
-                </p>
-              </motion.div>
-            ))}
-          </motion.div>
+          <FAQAccordion faqs={mobileFaqs} />
         </section>
 
         <section className={styles.ctaSection}>
@@ -947,34 +858,35 @@ export default function ServicePageClient({ service }: { service: Service }) {
   }
 
   if (service.slug === 'api-security-testing') {
+    const serviceName = 'API Applications';
     const apiMethodologySteps = [
       {
-        tab: "1. Planning & Recon",
-        title: "1. Planning and Reconnaissance",
+        tab: "Planning & Recon",
+        title: "Planning and Reconnaissance",
         description: "The assessment begins by defining scope, objectives, and rules of engagement. We gather detailed intelligence including API endpoints, base URLs, documentation files (Swagger / OpenAPI specifications), supported HTTP methods, authentication & authorization mechanisms, data formats (JSON, XML), and third-party integrations. This phase ensures full visibility into the API ecosystem before testing begins.",
         image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=800"
       },
       {
-        tab: "2. Vulnerability Analysis",
-        title: "2. Discovery and Vulnerability Analysis",
+        tab: "Vulnerability Analysis",
+        title: "Discovery and Vulnerability Analysis",
         description: "We interact with the API to map the attack surface and identify potential weaknesses. Using a combination of automated tools (e.g., Burp Suite, OWASP ZAP) and advanced manual testing techniques, we assess vulnerabilities guided by the OWASP API Security Top 10. We look for Broken Object Level Authorization (BOLA), Broken Authentication, Excessive Data Exposure, Mass Assignment, Security Misconfigurations, Injection attacks, and Improper Rate Limiting.",
         image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800"
       },
       {
-        tab: "3. Exploitation",
-        title: "3. Exploitation",
+        tab: "Exploitation",
+        title: "Exploitation",
         description: "HacFy safely exploits confirmed vulnerabilities to assess real-world impact. This includes testing for unauthorized data access, privilege escalation, account takeover, sensitive information disclosure, and denial-of-service risks. This step demonstrates how an attacker could abuse the API and quantifies the business impact.",
         image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800"
       },
       {
-        tab: "4. Post-Exploitation",
-        title: "4. Post-Exploitation",
+        tab: "Post-Exploitation",
+        title: "Post-Exploitation",
         description: "We evaluate whether vulnerabilities can provide persistent access, allow lateral movement within systems, expose additional sensitive datasets, or escalate access to administrative privileges. This mimics advanced persistent threat (APT) scenarios and highlights systemic risks.",
         image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=800"
       },
       {
-        tab: "5. Reporting",
-        title: "5. Reporting and Remediation",
+        tab: "Reporting",
+        title: "Reporting and Remediation",
         description: "HacFy delivers a detailed, executive-ready report including comprehensive vulnerability descriptions, Proof of Concept (PoC) evidence, severity ratings (CVSS scoring), business risk analysis, and clear remediation recommendations. We also provide secure coding best practice guidance and support development teams with remediation validation and re-testing services.",
         image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800"
       }
@@ -1124,7 +1036,7 @@ export default function ServicePageClient({ service }: { service: Service }) {
         </section>
 
         <section className={styles.methodologySection}>
-          <h2 className={styles.methodologyTitle}>3. Our Industry-Proven Methodology</h2>
+          <h2 className={styles.methodologyTitle}>Our Industry-Proven Methodology</h2>
           <p className={styles.introText} style={{ marginInline: 'auto', marginBottom: '40px', textAlign: 'center' }}>
             HacFy follows a structured and comprehensive methodology to ensure complete API security coverage.
           </p>
@@ -1150,16 +1062,6 @@ export default function ServicePageClient({ service }: { service: Service }) {
                 transition={{ duration: 0.3 }}
                 className={styles.tabContent}
               >
-                <div className={styles.methodologyImage}>
-                  <div className={styles.squareImageContainer}>
-                    <Image
-                      src={apiMethodologySteps[activeStep].image}
-                      alt={apiMethodologySteps[activeStep].tab}
-                      fill
-                      className={styles.image}
-                    />
-                  </div>
-                </div>
                 <div className={styles.methodologyText}>
                   <h3 className={styles.stepTitle}>{apiMethodologySteps[activeStep].title}</h3>
                   <p className={styles.stepDescription}>
@@ -1172,129 +1074,63 @@ export default function ServicePageClient({ service }: { service: Service }) {
         </section>
 
         <section className={styles.benefitsSection}>
-          <div className={styles.centeredHeader}>
-            <h2 className={styles.benefitsTitle}>4. Benefits of an API Application Penetration Test</h2>
-          </div>
           <div className={styles.benefitsContainer}>
-            <div className={styles.benefitsLeft}>
-              <p className={styles.benefitsIntroText}>
-                Conducting an API penetration test provides significant business and security advantages:
-              </p>
-              <motion.div
-                className={styles.benefitsList}
-                variants={containerVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.2 }}
-              >
-                {[
-                  "Protect sensitive data from unauthorised access",
-                  "Meet regulatory and compliance requirements",
-                  "Secure APIs before production deployment",
-                  "Reduce risk of financial and reputational damage",
-                  "Identify business logic vulnerabilities",
-                  "Strengthen authentication and authorization mechanisms"
-                ].map((benefit, index) => (
-                  <motion.div
-                    key={index}
-                    className={styles.benefitItem}
-                    variants={itemVariants}
-                    whileHover={listItemHover}
-                  >
-                    <Check className={styles.benefitCheck} size={24} />
-                    <span className={styles.benefitPointText}>{benefit}</span>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </div>
-            <div className={styles.benefitsRight}>
-              <div className={styles.saasCard}>
-                <div className={styles.cardVisual}>
-                  <Image
-                    src="https://images.unsplash.com/photo-1516251193007-45ef944ab0c6?q=80&w=800"
-                    alt="API Security Visual"
-                    fill
-                    style={{ objectFit: 'contain' }}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className={styles.centeredFooter}>
-            <p className={styles.strongCta}>
-              With APIs serving as the backbone of digital applications, proactive testing is essential.
-            </p>
+            <header className={styles.centeredHeader}>
+              <h2 className={styles.benefitsTitle}>Benefits of an API Application Penetration Test</h2>
+            </header>
+            <motion.div 
+              className={styles.benefitsGrid}
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+            >
+              {[
+                { text: "Protect sensitive data from unauthorised access", icon: Lock },
+                { text: "Meet regulatory and compliance requirements", icon: FileText },
+                { text: "Secure APIs before production deployment", icon: Shield },
+                { text: "Reduce risk of financial and reputational damage", icon: Target },
+                { text: "Identify business logic vulnerabilities", icon: Search },
+                { text: "Strengthen authentication and authorization mechanisms", icon: Handshake }
+              ].map((benefit, index) => (
+                <motion.div 
+                  key={index} 
+                  className={styles.benefitItemTheme} 
+                  variants={itemVariants}
+                >
+                  <div className={styles.iconWrapperTheme}>
+                    <benefit.icon size={24} />
+                  </div>
+                  <span className={styles.benefitTextTheme}>{benefit.text}</span>
+                </motion.div>
+              ))}
+            </motion.div>
           </div>
         </section>
 
-        <section className={styles.introSection} style={{ marginTop: '100px', marginBottom: '100px' }}>
-          <div className={styles.centeredHeader}>
-            <h2 className={styles.benefitsTitle}>5. What Are You Waiting For? Get a Quote Today & Fortify Your API Applications</h2>
-          </div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
+        {/* Custom Package Section */}
+        <section className={styles.customPackageSection}>
+          <motion.div 
+            className={styles.customPackageBanner}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className={styles.introText}
-            style={{ marginInline: 'auto', textAlign: 'center', maxWidth: '1000px' }}
+            transition={{ duration: 0.8 }}
           >
-            <p>
-              APIs are high-value targets for attackers — don’t leave them exposed. Partner with HacFy to strengthen your API security posture with expert-driven penetration testing services.
-            </p>
-            <p style={{ marginTop: '1.5rem' }}>
-              Contact us today for a customised API security assessment and quotation.
-            </p>
+            <div className={styles.customPackageContent}>
+              <h2 className={styles.customPackageTitle}>Get a Quote Today & Fortify Your {serviceName}</h2>
+              <p className={styles.customPackageDescription}>
+                Cyber threats evolve every day. Waiting until after a breach is not a strategy. Partner with HacFy to proactively secure your {serviceName.toLowerCase()} with industry-grade penetration testing.
+              </p>
+            </div>
+            <Link href="/contact" className={styles.customPackageBtn}>
+              Get a Quote
+            </Link>
           </motion.div>
         </section>
 
         <section className={styles.introSection} style={{ marginBottom: '100px' }}>
-          <div className={styles.centeredHeader}>
-            <h2 className={styles.benefitsTitle}>6. FAQs</h2>
-          </div>
-          <motion.div
-            style={{ maxWidth: '900px', margin: '0 auto' }}
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
-          >
-            {apiFaqs.map((faq, index) => (
-              <motion.div
-                key={index}
-                variants={itemVariants}
-                whileHover={{ scale: 1.02, x: 10, backgroundColor: '#ffffff', boxShadow: '0 10px 30px rgba(0,0,0,0.05)' }}
-                style={{
-                  marginBottom: '2rem',
-                  padding: '2rem',
-                  backgroundColor: '#f8fafc',
-                  borderRadius: '16px',
-                  border: '1px solid #e2e8f0',
-                  transition: 'all 0.3s ease'
-                }}
-              >
-                <h3 style={{
-                  fontSize: '1.25rem',
-                  fontWeight: 700,
-                  color: '#911A20',
-                  marginBottom: '1rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '12px'
-                }}>
-                  <div style={{ width: '8px', height: '8px', backgroundColor: '#911A20', borderRadius: '50%' }} />
-                  {faq.question}
-                </h3>
-                <p style={{
-                  fontSize: '1.125rem',
-                  lineHeight: 1.6,
-                  color: '#475569',
-                  paddingLeft: '20px'
-                }}>
-                  {faq.answer}
-                </p>
-              </motion.div>
-            ))}
-          </motion.div>
+          <FAQAccordion faqs={apiFaqs} />
         </section>
 
         <section className={styles.ctaSection}>

@@ -1,0 +1,181 @@
+.container {
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: visible;
+}
+
+.radialWrapper {
+      justify-content: center;
+    align-items: center;
+    padding-left: 69px;
+    width: 600px;
+    height: 600px;
+    margin-left: -41px;
+    display: flex;
+    position: relative;
+}
+
+.ringInner {
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  border: 1px dashed #e2e8f0;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.ringOuter {
+  position: absolute;
+  width: 480px;
+  height: 480px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.centerNode {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  background: white;
+  border: 4px solid #911A20;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  box-shadow: 0 15px 40px rgba(145, 26, 32, 0.15);
+}
+
+.hacfyText {
+  font-family: serif;
+  font-weight: 800;
+  font-size: 1.75rem;
+  color: #911A20;
+  margin-top: 5px;
+}
+
+.centerShield {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nodeWrapper {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+  display: flex;
+  align-items: center;
+}
+
+.iconNode {
+  width: 70px;
+  height: 70px;
+  background: white;
+  border: 2px solid;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+  position: relative;
+  z-index: 5;
+}
+
+.iconNode:hover {
+  transform: scale(1.15);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.content {
+  position: absolute;
+  width: 260px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.nodeTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.nodeDesc {
+  font-size: 0.875rem;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+.connectorLine {
+  position: absolute;
+  background: #cbd5e1;
+  height: 1px;
+  z-index: -1;
+  display: flex;
+  align-items: center;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  background: #cbd5e1;
+  border-radius: 50%;
+  position: absolute;
+}
+
+@media (max-width: 1100px) {
+  .radialWrapper {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  .ringInner, .ringOuter, .connectorLine {
+    display: none;
+  }
+  
+  .centerNode {
+    position: static;
+    margin-bottom: 40px;
+    transform: none;
+  }
+  
+  .nodeWrapper {
+    position: static !important;
+    transform: none !important;
+    flex-direction: row;
+    gap: 20px;
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    background: #f8fafc;
+    border-radius: 20px;
+    align-items: center;
+    left: auto !important;
+    top: auto !important;
+  }
+  
+  .iconNode {
+    flex-shrink: 0;
+  }
+  
+  .content {
+    position: static !important;
+    width: auto !important;
+    text-align: left !important;
+    background: transparent;
+    padding: 0;
+  }
+}
