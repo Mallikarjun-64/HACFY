@@ -441,7 +441,7 @@ export default function ServicePageClient({ service }: { service: Service }) {
 
         {/* Methodology Section */}
         <section className={styles.methodologySection}>
-          <h2 className={styles.methodologyTitle}>OUR INDUSTRY PROVEN METHODOLOGY</h2>
+          <h2 className={styles.methodologyTitle}>Our Industry Proven Methodology</h2>
           <p className={styles.introText} style={{ marginInline: 'auto', marginBottom: '40px', textAlign: 'center' }}>
             HacFy follows a structured and comprehensive penetration testing methodology designed to deliver measurable security improvements.
           </p>

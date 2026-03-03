@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { Users, Shield, Monitor, Wrench, FileText, ShieldCheck } from 'lucide-react';
 import styles from './TrustInfographic.module.css';
 
@@ -81,11 +82,14 @@ const TrustInfographic: React.FC = () => {
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, type: 'spring', stiffness: 100 }}
           viewport={{ once: true }}
+          style={{ overflow: 'hidden' }}
         >
-          <div className={styles.centerShield}>
-             <Shield size={48} color="#911A20" fill="#911A20" />
-          </div>
-          <span className={styles.hacfyText}>HacFy</span>
+          <Image 
+            src="/images/hacfy.webp" 
+            alt="HacFy Logo" 
+            fill 
+            style={{ objectFit: 'contain', padding: '20px' }}
+          />
         </motion.div>
 
         {trustItems.map((item, index) => {
