@@ -82,14 +82,16 @@ const TrustInfographic: React.FC = () => {
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, type: 'spring', stiffness: 100 }}
           viewport={{ once: true }}
-          style={{ overflow: 'hidden' }}
         >
-          <Image 
-            src="/images/hacfy.webp" 
-            alt="HacFy Logo" 
-            fill 
-            style={{ objectFit: 'contain', padding: '20px' }}
-          />
+          <div style={{ position: 'relative', width: '78%', height: '78%', padding: '20px' }}>
+            <Image 
+              src="/images/hacfy.webp" 
+              alt="HacFy Logo" 
+              fill 
+              sizes="(max-width: 160px) 100vw, 160px"
+              style={{ objectFit: 'contain' }}
+            />
+          </div>
         </motion.div>
 
         {trustItems.map((item, index) => {
@@ -114,9 +116,8 @@ const TrustInfographic: React.FC = () => {
             >
               <div 
                 className={styles.iconNode} 
-                style={{ borderColor: item.color }}
               >
-                <item.icon size={28} color={item.color} />
+                <item.icon size={28} />
               </div>
               
               <div 

@@ -6,7 +6,6 @@ import TrustedServices from '@/components/sections/TrustedServices';
 import Testimonials from '@/components/sections/Testimonials';
 import Resources from '@/components/sections/Resources';
 import Careers from '@/components/sections/Careers';
-import Footer from '@/components/sections/Footer';
 
 export default function Home() {
   return (
@@ -18,7 +17,6 @@ export default function Home() {
       <Testimonials />
       <Resources />
       <Careers />
-      <Footer />
     </>
   );
 }

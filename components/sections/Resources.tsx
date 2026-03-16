@@ -1,6 +1,7 @@
 "use client";
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Section from '@/components/ui/Section';
 import Card from '@/components/ui/Card';
@@ -11,17 +12,20 @@ const resources = [
   {
     title: 'Understanding Cyber Risk for SMEs',
     image: '/images/blog1.jpg',
-    category: 'Guides'
+    category: 'Guides',
+    slug: 'understanding-cyber-risk-for-smes'
   },
   {
     title: 'Why Visibility Matters Before Security',
     image: '/images/blog2.jpg',
-    category: 'Insights'
+    category: 'Insights',
+    slug: 'why-visibility-matters-before-security'
   },
   {
     title: 'Common Security Gaps in Growing Businesses',
     image: '/images/blog3.jpg',
-    category: 'Research'
+    category: 'Research',
+    slug: 'common-security-gaps-in-growing-businesses'
   }
 ];
 
@@ -62,22 +66,24 @@ const Resources: React.FC = () => {
       >
         {resources.map((resource, index) => (
           <motion.div key={index} variants={item}>
-            <Card className={styles.resourceCard}>
-              <div className={styles.imageWrapper}>
-                <Image 
-                  src={resource.image} 
-                  alt={resource.title} 
-                  fill 
-                  className={styles.blogImage}
-                />
-              </div>
-              <div className={styles.cardContent}>
-                <span className={styles.category}>{resource.category}</span>
-                <h3 className={styles.resourceTitle}>
-                  <span>{resource.title}</span>
-                </h3>
-              </div>
-            </Card>
+            <Link href={`/resources/${resource.slug}`}>
+              <Card className={styles.resourceCard}>
+                <div className={styles.imageWrapper}>
+                  <Image 
+                    src={resource.image} 
+                    alt={resource.title} 
+                    fill 
+                    className={styles.blogImage}
+                  />
+                </div>
+                <div className={styles.cardContent}>
+                  <span className={styles.category}>{resource.category}</span>
+                  <h3 className={styles.resourceTitle}>
+                    <span>{resource.title}</span>
+                  </h3>
+                </div>
+              </Card>
+            </Link>
           </motion.div>
         ))}
       </motion.div>

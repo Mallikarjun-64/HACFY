@@ -11,7 +11,6 @@ import {
 
 import Section from '@/components/ui/Section';
 import styles from './Contact.module.css';
-import Footer from '@/components/sections/Footer';
 import { supabase } from '@/lib/supabase';
 import { countries } from '@/lib/countries';
 
@@ -341,8 +340,6 @@ const ContactPage = () => {
           </div>
         </div>
       </Section>
-
-      <Footer />
     </>
   );
 };

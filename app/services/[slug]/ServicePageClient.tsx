@@ -20,7 +20,15 @@ import {
   Handshake,
   Settings,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Activity,
+  Code,
+  Globe,
+  Smartphone,
+  Server,
+  Monitor,
+  Cpu,
+  ArrowRight
 } from 'lucide-react';
 
 const FAQAccordion = ({ faqs }: { faqs: { question: string; answer: string }[] }) => {
@@ -653,6 +661,149 @@ export default function ServicePageClient({ service }: { service: Service }) {
             viewport={{ once: true }}
           >
             <h2 className={styles.ctaTitle}>Ready to secure your {service?.title?.toLowerCase()}?</h2>
+            <p className={styles.ctaText}>
+              Get in touch with our security experts to discuss your project requirements and get a custom quote.
+            </p>
+            <Link href="/contact" className={styles.startProjectBtn}>
+              Start Project
+              <ChevronRight size={20} />
+            </Link>
+          </motion.div>
+        </section>
+      </main>
+    );
+  }
+
+  if (service.slug === 'applications') {
+    return (
+      <main className={styles.mainContainer}>
+        <nav className={styles.nav}>
+          <Link href="/#cybersecurity-services" className={styles.backButton}>
+            <ArrowLeft size={20} />
+            Back to Services
+          </Link>
+        </nav>
+
+        <header className={styles.applicationsHero}>
+          <motion.div
+            className={styles.webAppHeroContent}
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <span className={styles.badge}>Services</span>
+            <h1 className={styles.appHeroTitle}>{service.title}</h1>
+            <p className={styles.appHeroDescription}>{service.description}</p>
+            <div className={styles.heroButtons}>
+              <Link href="/contact" className={styles.primaryBtn}>
+                GET IN TOUCH
+              </Link>
+              <Link href="/#cybersecurity-services" className={styles.secondaryBtn}>
+                All Services
+              </Link>
+            </div>
+          </motion.div>
+          
+          <motion.div
+            className={styles.appHeroImage}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <div style={{ position: 'relative', width: '100%', maxWidth: '500px' }}>
+              <div className={styles.imageContainer} style={{ aspectRatio: '1/1', background: 'transparent', boxShadow: 'none' }}>
+                <div style={{ 
+                  position: 'relative', 
+                  width: '100%', 
+                  height: '100%', 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center',
+                  background: 'radial-gradient(circle, rgba(218, 21, 21, 0.05) 0%, transparent 70%)'
+                }}>
+                  <motion.div
+                    animate={{ y: [0, -20, 0] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    <Image
+                      src={service.image}
+                      alt={service.title}
+                      width={400}
+                      height={400}
+                      className={styles.illustration}
+                      priority
+                    />
+                  </motion.div>
+                  
+                  {/* Floating Shield Icons matching the user's reference image */}
+                  <motion.div 
+                    className={styles.floatingIcon}
+                    style={{ top: '20%', right: '10%' }}
+                    animate={{ y: [0, 10, 0] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    <Shield size={24} color="#DA1515F3" fill="rgba(218, 21, 21, 0.1)" />
+                    <span>Secure</span>
+                  </motion.div>
+
+                  <motion.div 
+                    className={styles.floatingIcon}
+                    style={{ bottom: '20%', left: '10%' }}
+                    animate={{ y: [0, -15, 0] }}
+                    transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                  >
+                    <Lock size={24} color="#DA1515F3" fill="rgba(218, 21, 21, 0.1)" />
+                    <span>Protected</span>
+                  </motion.div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </header>
+
+        <section className={styles.serviceCardsSection}>
+          {service.features.map((feature, index) => {
+            const isObject = typeof feature === 'object';
+            const title = isObject ? feature.title : feature;
+            const slug = isObject ? feature.slug : undefined;
+            const FeatureIcon = slug === 'web-application' ? Globe : 
+                                slug === 'mobile-application' ? Smartphone : 
+                                slug === 'api-security-testing' ? Activity : 
+                                slug === 'desktop-application' ? Monitor : Shield;
+
+            return (
+              <motion.div
+                key={title}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <Link href={slug ? `/services/${slug}` : '#'} className={styles.serviceCard}>
+                  <div className={styles.serviceIconCircle} style={{ background: 'rgba(218, 21, 21, 0.05)', color: '#DA1515F3' }}>
+                    <FeatureIcon size={28} />
+                  </div>
+                  <div className={styles.serviceCardContent}>
+                    <h3 className={styles.serviceCardTitle}>{title}</h3>
+                    <p className={styles.serviceCardDescription}>
+                      Specialized security testing and vulnerability assessment for {title.toLowerCase()} environments.
+                    </p>
+                  </div>
+                  <ChevronRight size={24} color="#CBD5E1" className={styles.chevronIcon} />
+                </Link>
+              </motion.div>
+            );
+          })}
+        </section>
+
+        <section className={styles.ctaSection}>
+          <motion.div
+            className={styles.ctaCard}
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+          >
+            <h2 className={styles.ctaTitle}>Ready to secure your applications?</h2>
             <p className={styles.ctaText}>
               Get in touch with our security experts to discuss your project requirements and get a custom quote.
             </p>
