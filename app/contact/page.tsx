@@ -161,11 +161,14 @@ const ContactPage = () => {
                 >
 
                   <option value="">Select Services</option>
-                  <option value="VAPT">VAPT</option>
-                  <option value="cloud-security">Cloud Security</option>
-                  <option value="Application Security">Application Security</option>
-                  <option value="Security Hardening">Security Hardening</option>
-                  <option value="Human Risk Simulations">Human Risk Simulations</option>
+                  <option value="Network & Systems">Network & Systems</option>
+                  <option value="Cloud Platforms">Cloud Platforms</option>
+                  <option value="Data Storage">Data Storage</option>
+                  <option value="Applications">Applications</option>
+                  <option value="Communication & Code">Communication & Code</option>
+                  <option value="Devices & Hardware">Devices & Hardware</option>
+                  <option value="Security Testing">Security Testing</option>
+                  <option value="Human Risk Testing">Human Risk Testing</option>
 
                 </select>
 

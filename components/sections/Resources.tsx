@@ -54,7 +54,7 @@ const Resources: React.FC = () => {
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
       >
-        <h2 className={styles.title}>Blogs & Resources</h2>
+        <h2 className={styles.title}>Blogs</h2>
         <p className={styles.intro}>Stay informed. Stay ahead of cyber risk.</p>
       </motion.div>
       <motion.div 
@@ -94,7 +94,7 @@ const Resources: React.FC = () => {
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay: 0.4 }}
       >
-        <Button variant="outline">Explore All Resources</Button>
+        <Button variant="outline">Explore All Blogs</Button>
       </motion.div>
     </Section>
   );

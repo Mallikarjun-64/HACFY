@@ -83,6 +83,162 @@
   margin-top: 10px;
 }
 
+.megaMenu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  width: 1000px;
+  max-width: calc(100vw - 40px);
+  border-radius: 24px;
+  box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.15), 0 18px 36px -18px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  z-index: 100;
+  margin-top: 0;
+  display: flex;
+  overflow: hidden;
+  padding: 0;
+}
+
+.megaMenuCategories {
+  width: 300px;
+  background-color: #f8fafc;
+  padding: 32px 20px;
+  border-right: 1px solid #f1f5f9;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.megaMenuTitle {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 16px;
+  padding-left: 12px;
+}
+
+.categoryBtn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: transparent;
+  border: none;
+  color: #475569;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: left;
+  width: 100%;
+}
+
+.categoryBtn:hover {
+  background: rgba(225, 22, 22, 0.04);
+  color: #e10e17;
+  padding-left: 20px;
+}
+
+.categoryBtnActive {
+  background: white;
+  color: #e10e17;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transform: scale(1.02);
+}
+
+.categoryBtnActive:hover {
+  background: white;
+  color: #e10e17;
+}
+
+.megaMenuContent {
+  flex: 1;
+  padding: 32px;
+  background: white;
+}
+
+.contentTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.contentTitle::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #f1f5f9;
+}
+
+.servicesGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.serviceCard {
+  display: flex;
+  gap: 16px;
+  padding: 20px;
+  border-radius: 20px;
+  background: white;
+  border: 1px solid #f1f5f9;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  text-align: left;
+}
+
+.serviceCard:hover {
+  border-color: rgba(225, 14, 23, 0.2);
+  background: #fffcfc;
+  box-shadow: 0 10px 25px -5px rgba(225, 14, 23, 0.1);
+  transform: translateY(-4px);
+}
+
+.serviceIcon {
+  width: 52px;
+  height: 52px;
+  min-width: 52px;
+  border-radius: 14px;
+  background: #fff1f2;
+  color: #e10e17;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.serviceCard:hover .serviceIcon {
+  transform: scale(1.1) rotate(-5deg);
+}
+
+.serviceInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.serviceName {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.serviceDesc {
+  font-size: 0.875rem;
+  color: #64748b;
+  line-height: 1.5;
+}
+
 .dropdownTitle {
   font-size: 0.75rem;
   font-weight: 700;
@@ -136,20 +292,32 @@
 }
 
 .mobileSubMenu {
-  margin-top: 12px;
+  margin-top: 16px;
   padding-left: 16px;
-  border-left: 2px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  border-left: 2px solid #eee;
+}
+
+.mobileCategorySection {
+  margin-bottom: 20px;
+}
+
+.mobileCategorySection:last-child {
+  margin-bottom: 0;
 }
 
 .mobileSubTitle {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 700;
-  color: var(--text-muted);
+  color: #e10e17;
   text-transform: uppercase;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
+  letter-spacing: 0.05em;
+}
+
+.mobileSubItemsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .mobileSubItem {
