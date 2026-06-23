@@ -96,6 +96,10 @@ const ContactPage = () => {
     setErrorMessage('');
 
     try {
+      if (!supabase) {
+        throw new Error('Contact form is not configured yet. Please try again later or email us directly at info@hacfy.com');
+      }
+
       const { error } = await supabase
         .from('contact_submissions')
         .insert([
@@ -130,6 +134,7 @@ const ContactPage = () => {
       setStatus('error');
       setErrorMessage(error.message || 'Submission failed');
     }
+
   };
 
   return (
