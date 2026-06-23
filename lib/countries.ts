@@ -1,0 +1,22 @@
+export const countries = [
+  { name: 'India', code: '+91', flag: '🇮🇳', id: 'IN' },
+  { name: 'United States', code: '+1', flag: '🇺🇸', id: 'US' },
+  { name: 'United Kingdom', code: '+44', flag: '🇬🇧', id: 'GB' },
+  { name: 'Canada', code: '+1', flag: '🇨🇦', id: 'CA' },
+  { name: 'Australia', code: '+61', flag: '🇦🇺', id: 'AU' },
+  { name: 'Germany', code: '+49', flag: '🇩🇪', id: 'DE' },
+  { name: 'France', code: '+33', flag: '🇫🇷', id: 'FR' },
+  { name: 'Japan', code: '+81', flag: '🇯🇵', id: 'JP' },
+  { name: 'China', code: '+86', flag: '🇨🇳', id: 'CN' },
+  { name: 'Brazil', code: '+55', flag: '🇧🇷', id: 'BR' },
+  { name: 'Singapore', code: '+65', flag: '🇸🇬', id: 'SG' },
+  { name: 'United Arab Emirates', code: '+971', flag: '🇦🇪', id: 'AE' },
+  { name: 'Saudi Arabia', code: '+966', flag: '🇸🇦', id: 'SA' },
+  { name: 'South Africa', code: '+27', flag: '🇿🇦', id: 'ZA' },
+  { name: 'Russia', code: '+7', flag: '🇷🇺', id: 'RU' },
+  { name: 'Mexico', code: '+52', flag: '🇲🇽', id: 'MX' },
+  { name: 'Italy', code: '+39', flag: '🇮🇹', id: 'IT' },
+  { name: 'Spain', code: '+34', flag: '🇪🇸', id: 'ES' },
+  { name: 'Netherlands', code: '+31', flag: '🇳🇱', id: 'NL' },
+  { name: 'Switzerland', code: '+41', flag: '🇨🇭', id: 'CH' }
+].sort((a, b) => a.name.localeCompare(b.name));

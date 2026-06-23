@@ -1,0 +1,19 @@
+.section {
+  width: 100%;
+}
+
+.white {
+  background-color: var(--bg-white);
+}
+
+.slate-50 {
+  background-color: var(--bg-slate-50);
+}
+
+.slate-100 {
+  background-color: var(--bg-slate-100);
+}
+
+.gradient {
+  background: linear-gradient(to bottom, var(--bg-slate-50), var(--bg-white));
+}
