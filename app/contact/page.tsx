@@ -13,6 +13,7 @@ import Section from '@/components/ui/Section';
 import styles from './Contact.module.css';
 import { supabase } from '@/lib/supabase';
 import { countries } from '@/lib/countries';
+import { services, Feature } from '@/lib/services-data';
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -159,17 +160,32 @@ const ContactPage = () => {
                   onChange={handleChange}
                   required
                 >
-
-                  <option value="">Select Services</option>
-                  <option value="Network & Systems">Network & Systems</option>
-                  <option value="Cloud Platforms">Cloud Platforms</option>
-                  <option value="Data Storage">Data Storage</option>
-                  <option value="Applications">Applications</option>
-                  <option value="Communication & Code">Communication & Code</option>
-                  <option value="Devices & Hardware">Devices & Hardware</option>
-                  <option value="Security Testing">Security Testing</option>
-                  <option value="Human Risk Testing">Human Risk Testing</option>
-
+                  <option value="">Select a Service</option>
+                  {services
+                    .filter(s => !s.hidden)
+                    .map(parent => {
+                      const subServices = (parent.features as Feature[]).filter(
+                        (f): f is Feature & { slug: string } =>
+                          typeof f === 'object' && !!f.slug
+                      );
+                      if (subServices.length > 1) {
+                        return (
+                          <optgroup key={parent.slug} label={parent.title}>
+                            {subServices.map(sub => (
+                              <option key={sub.slug} value={sub.title}>
+                                {sub.title}
+                              </option>
+                            ))}
+                          </optgroup>
+                        );
+                      }
+                      return (
+                        <option key={parent.slug} value={parent.title}>
+                          {parent.title}
+                        </option>
+                      );
+                    })
+                  }
                 </select>
 
                 <div className={styles.formGrid}>

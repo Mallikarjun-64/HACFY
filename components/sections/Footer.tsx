@@ -15,6 +15,7 @@ import {
   Shield
 } from 'lucide-react';
 import styles from './Footer.module.css';
+import { services } from '@/lib/services-data';
 
 const Footer: React.FC = () => {
   const router = useRouter();
@@ -83,14 +84,14 @@ const Footer: React.FC = () => {
           <div className={styles.linksColumn}>
             <h3 className={styles.columnTitle}>Services</h3>
             <ul className={styles.linkList}>
-              <li><a href="#cybersecurity-services">Network & Systems</a></li>
-              <li><a href="#cybersecurity-services">Cloud Platforms</a></li>
-              <li><a href="#cybersecurity-services">Data Storage</a></li>
-              <li><a href="#cybersecurity-services">Applications</a></li>
-              <li><a href="#cybersecurity-services">Communication & Code</a></li>
-              <li><a href="#cybersecurity-services">Devices & Hardware</a></li>
-              <li><a href="#cybersecurity-services">Security Testing</a></li>
-              <li><a href="#cybersecurity-services">Human Risk Testing</a></li>
+              {services
+                .filter(s => !s.hidden)
+                .map(service => (
+                  <li key={service.slug}>
+                    <Link href={`/services/${service.slug}`}>{service.title}</Link>
+                  </li>
+                ))
+              }
             </ul>
           </div>
 
